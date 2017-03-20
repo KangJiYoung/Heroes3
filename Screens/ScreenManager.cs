@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Heroes3.Screens.Base;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
@@ -13,7 +14,7 @@ namespace Heroes3.Screens
         private IList<GameScreen> screens = new List<GameScreen>();
         private IList<GameScreen> screensToUpdate = new List<GameScreen>();
 
-        public ScreenManager(Game game) : base(game)
+        public ScreenManager(Heroes game) : base(game)
         {
         }
 
@@ -44,10 +45,10 @@ namespace Heroes3.Screens
             while (screensToUpdate.Count > 0)
             {
                 var screen = screensToUpdate[screensToUpdate.Count - 1];
+                screensToUpdate.RemoveAt(screensToUpdate.Count - 1);
+
                 screen.Update(gameTime);
                 screen.HandleInput();
-
-                screensToUpdate.RemoveAt(screensToUpdate.Count - 1);
             }
         }
 

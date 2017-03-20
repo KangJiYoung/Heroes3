@@ -5,12 +5,12 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Heroes3
 {
-    public class Game1 : Game
+    public class Heroes : Game
     {
         private GraphicsDeviceManager graphics;
         private ScreenManager screenManager;
 
-        public Game1()
+        public Heroes()
         {
             graphics = new GraphicsDeviceManager(this)
             {
@@ -21,6 +21,8 @@ namespace Heroes3
 
             screenManager = new ScreenManager(this);
             Components.Add(screenManager);
+
+            IsMouseVisible = true;
         }
 
         protected override void Initialize()
@@ -28,6 +30,27 @@ namespace Heroes3
             base.Initialize();
 
             screenManager.AddScreen(new MainMenuScreen());
+        }
+
+        protected override void LoadContent()
+        {
+            Fonts.LoadContent(Content);
+
+            base.LoadContent();
+        }
+
+        protected override void UnloadContent()
+        {
+            Fonts.UnloadContent();
+
+            base.UnloadContent();
+        }
+
+        protected override void Update(GameTime gameTime)
+        {
+            InputManager.Update();
+
+            base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)

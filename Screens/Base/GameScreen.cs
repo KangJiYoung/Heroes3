@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace Heroes3.Screens
+namespace Heroes3.Screens.Base
 {
     public abstract class GameScreen
     {
