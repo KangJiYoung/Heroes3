@@ -55,6 +55,7 @@
     <Compile Include="Screens\Base\MenuEntry.cs" />
     <Compile Include="Screens\Base\MenuScreen.cs" />
     <Compile Include="Screens\ScreenManager.cs" />
+    <Compile Include="TileManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
