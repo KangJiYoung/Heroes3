@@ -25,6 +25,9 @@ namespace Heroes3.Screens.Game
 
             battleBackgorund = content.Load<Texture2D>("Images/Game/Battle/BattleBackground");
 
+            player1Faction.HeroTexture = content.Load<Texture2D>(player1Faction.Hero);
+            player2Faction.HeroTexture = content.Load<Texture2D>(player2Faction.Hero);
+
             base.LoadContent();
         }
 
@@ -35,6 +38,13 @@ namespace Heroes3.Screens.Game
             spriteBatch.Begin();
 
             spriteBatch.Draw(battleBackgorund, new Vector2(0, 0), Color.White);
+
+            spriteBatch.Draw(player1Faction.HeroTexture, new Vector2(18, 70), Color.White);
+
+
+#pragma warning disable CS0618 // Type or member is obsolete
+            spriteBatch.Draw(player2Faction.HeroTexture, new Vector2(1202, 70), color: Color.White, effects: SpriteEffects.FlipHorizontally);
+#pragma warning restore CS0618 // Type or member is obsolete
 
             spriteBatch.End();
 

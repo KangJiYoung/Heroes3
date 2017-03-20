@@ -1,4 +1,5 @@
 ﻿{
   "Name": "Fortress",
-  "Image": "Images/Factions/FortressBackground"
+  "Image": "Images/Factions/FortressBackground",
+  "Hero": "Images/Heroes/FortressHero"
 }

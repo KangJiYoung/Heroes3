@@ -7,7 +7,9 @@ namespace Heroes3.Data
         public string Name { get; set; }
 
         public string Image { get; set; }
-
         public Texture2D ImageTexture { get; set; }
+
+        public string Hero { get; set; }
+        public Texture2D HeroTexture { get; set; }
     }
 }

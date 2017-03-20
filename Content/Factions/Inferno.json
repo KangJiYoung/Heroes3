@@ -1,4 +1,5 @@
 ﻿{
   "Name": "Inferno",
-  "Image": "Images/Factions/InfernoBackground"
+  "Image": "Images/Factions/InfernoBackground",
+  "Hero": "Images/Heroes/InfernoHero"
 }

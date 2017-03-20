@@ -1,4 +1,5 @@
 ﻿{
   "Name": "Rampart",
-  "Image": "Images/Factions/RampartBackground"
+  "Image": "Images/Factions/RampartBackground",
+  "Hero": "Images/Heroes/RampartHero"
 }

@@ -1,4 +1,5 @@
 ﻿{
   "Name": "Conflux",
-  "Image": "Images/Factions/ConfluxBackground"
+  "Image": "Images/Factions/ConfluxBackground",
+  "Hero": "Images/Heroes/ConfluxHero"
 }
