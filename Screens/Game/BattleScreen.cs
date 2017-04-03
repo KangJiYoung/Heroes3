@@ -21,7 +21,8 @@ namespace Heroes3.Screens.Game
 
         public override void LoadContent()
         {
-            ScreenManager.Game.Components.Add(new TileManager(ScreenManager.Game));
+            var tileManager = new TileManager(ScreenManager.Game);
+            ScreenManager.Game.Components.Add(tileManager);
 
             var content = ScreenManager.Game.Content;
 
@@ -30,8 +31,8 @@ namespace Heroes3.Screens.Game
             player1Faction.LoadContent(content);
             player2Faction.LoadContent(content);
 
-            var player1Unit = new Unit(ScreenManager.Game, player1Faction.Units[0], false);
-            var player2Unit = new Unit(ScreenManager.Game, player1Faction.Units[0], true) { Y = 22 };
+            var player1Unit = new Unit(ScreenManager.Game, player1Faction.Units[0], false, tileManager);
+            var player2Unit = new Unit(ScreenManager.Game, player1Faction.Units[0], true, tileManager) { Y = 22 };
             ScreenManager.Game.Components.Add(player1Unit);
             ScreenManager.Game.Components.Add(player2Unit);
 

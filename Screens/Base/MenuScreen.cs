@@ -11,7 +11,7 @@ namespace Heroes3.Screens.Base
         {
             if (InputManager.IsMouseClick())
             {
-                var mousePosition = InputManager.GetMousePosition();
+                var mousePosition = InputManager.GetCurrentMousePosition();
 
                 foreach (var menuEntry in MenuEntries)
                 {
