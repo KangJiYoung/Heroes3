@@ -1,4 +1,6 @@
 ﻿using Heroes3.Data;
+using Heroes3.Drawable;
+using Heroes3.Managers;
 using Heroes3.Screens.Base;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -25,8 +27,13 @@ namespace Heroes3.Screens.Game
 
             battleBackgorund = content.Load<Texture2D>("Images/Game/Battle/BattleBackground");
 
-            player1Faction.HeroTexture = content.Load<Texture2D>(player1Faction.Hero);
-            player2Faction.HeroTexture = content.Load<Texture2D>(player2Faction.Hero);
+            player1Faction.LoadContent(content);
+            player2Faction.LoadContent(content);
+
+            var player1Unit = new Unit(ScreenManager.Game, player1Faction.Units[0], false);
+            var player2Unit = new Unit(ScreenManager.Game, player1Faction.Units[0], true) { Y = 22 };
+            ScreenManager.Game.Components.Add(player1Unit);
+            ScreenManager.Game.Components.Add(player2Unit);
 
             base.LoadContent();
         }

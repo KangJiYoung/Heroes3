@@ -1,4 +1,5 @@
-﻿using Heroes3.Screens;
+﻿using Heroes3.Managers;
+using Heroes3.Screens;
 using Heroes3.Screens.Menu;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

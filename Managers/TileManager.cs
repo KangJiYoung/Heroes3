@@ -1,7 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Heroes3.Data;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Heroes3
+namespace Heroes3.Managers
 {
     public class TileManager : DrawableGameComponent
     {
@@ -28,21 +29,9 @@ namespace Heroes3
         {
             spriteBatch.Begin();
 
-            var initialYoffset = 180;
-            var initialXoffset = 80;
-            for (int i = 0; i < 10; i++)
-            {
-                var currentXoffset = initialXoffset;
-
-                for (int j = 0; j < 23; j++)
-                {
-                    spriteBatch.Draw(tileTexture, new Vector2(currentXoffset + j * 45, initialYoffset + i * 45), Color.White);
-
-                    currentXoffset += 4;
-                }
-
-                initialYoffset += 4;
-            }
+            for (int i = 0; i < BattleMap.Map.GetLength(0); i++)
+                for (int j = 0; j < BattleMap.Map.GetLength(1); j++)
+                    spriteBatch.Draw(tileTexture, BattleMap.Map[i, j], Color.White);
 
             spriteBatch.End();
 

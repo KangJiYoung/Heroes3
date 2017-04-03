@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace Heroes3
+namespace Heroes3.Managers
 {
     public static class InputManager
     {

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Heroes3.Managers;
+using System.Collections.Generic;
 
 namespace Heroes3.Screens.Base
 {

@@ -1,5 +1,86 @@
 ﻿{
   "Name": "Castle",
   "Image": "Images/Factions/CastleBackground",
-  "Hero": "Images/Heroes/CastleHero"
+  "Hero": "Images/Heroes/CastleHero",
+  "Units": [
+    {
+      "Name": "Halberdier",
+      "Speed": 5,
+      "Shots": 0,
+      "Health": 10,
+      "HexSize": 1,
+      "IsRange": false,
+      "IsFlying": false,
+      "MinimumDamage": 2,
+      "MaximumDamage": 3,
+      "AnimationPath": "Animations/Castle/HalbedierAnimation",
+      "AnimationDescriptionPath": "Content/Animations/Castle/HalbedierAnimation.xml"
+    },
+    {
+      "Name": "Marksman",
+      "Speed": 6,
+      "Shots": 24,
+      "Health": 10,
+      "HexSize": 1,
+      "IsRange": true,
+      "IsFlying": false,
+      "MinimumDamage": 2,
+      "MaximumDamage": 3
+    },
+    {
+      "Name": "Royal Griffin",
+      "Speed": 9,
+      "Shots": 0,
+      "Health": 25,
+      "HexSize": 2,
+      "IsRange": false,
+      "IsFlying": true,
+      "MinimumDamage": 3,
+      "MaximumDamage": 6
+    },
+    {
+      "Name": "Crusader",
+      "Speed": 6,
+      "Shots": 0,
+      "Health": 35,
+      "HexSize": 1,
+      "IsRange": false,
+      "IsFlying": false,
+      "MinimumDamage": 7,
+      "MaximumDamage": 10
+    },
+    {
+      "Name": "Zealot",
+      "Speed": 7,
+      "Shots": 24,
+      "Health": 30,
+      "HexSize": 1,
+      "IsRange": true,
+      "IsFlying": false,
+      "MinimumDamage": 10,
+      "MaximumDamage": 12
+    },
+    {
+      "Name": "Champion",
+      "Speed": 9,
+      "Shots": 0,
+      "Health": 100,
+      "HexSize": 2,
+      "IsRange": false,
+      "IsFlying": false,
+      "MinimumDamage": 20,
+      "MaximumDamage": 25
+    },
+    {
+      "Name": "Archangel",
+      "Speed": 18,
+      "Shots": 0,
+      "Health": 250,
+      "HexSize": 2,
+      "IsRange": false,
+      "IsFlying": true,
+      "MinimumDamage": 50,
+      "MaximumDamage": 50
+    }
+  ]
 }
