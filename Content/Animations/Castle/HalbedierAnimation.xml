@@ -54,7 +54,7 @@
       </Sprite>
    </Sprites>
    <Animations>
-      <Animation Name="Movement" FrameRate="20" Loop="True" PingPong="False">
+      <Animation Name="Move" FrameRate="20" Loop="True" PingPong="False">
          <Frames>
             <Frame SpriteId="9" OriginX="22" OriginY="50" OffSetX="0" OffSetY="0" Duration="0.05" />
             <Frame SpriteId="10" OriginX="22.5" OriginY="51" OffSetX="0" OffSetY="0" Duration="0.05" />

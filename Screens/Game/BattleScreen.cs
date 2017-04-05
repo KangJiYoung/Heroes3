@@ -36,6 +36,8 @@ namespace Heroes3.Screens.Game
             ScreenManager.Game.Components.Add(player1Unit);
             ScreenManager.Game.Components.Add(player2Unit);
 
+            player2Unit.SetIsTurn(true);
+
             base.LoadContent();
         }
 

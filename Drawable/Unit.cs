@@ -2,7 +2,6 @@
 using Heroes3.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,15 +11,22 @@ namespace Heroes3.Drawable
     {
         public int X { get; set; }
         public int Y { get; set; }
-        public AnimationType CurrentAnimation { get; set; } = AnimationType.Nothing;
+        public AnimationType CurrentAnimation { get; set; }
 
-        private bool isReverted;
+        private const int
+            HIGHLIGHT_ANIMATION_SPEED = 40,
+            HIGHLIGHT_ANIMATION_ALPHA_INCREASE = 10;
+        private int highlightAnimationRemaining = HIGHLIGHT_ANIMATION_SPEED;
+
+        private bool isReverted, isTurn;
+
         private UnitData unitData;
         private SpriteBatch spriteBatch;
         private TileManager tileManager;
         private Vector2 tileLocation;
         private Rectangle tileRectangle;
         private IList<Vector2> possibleMoves;
+        private Color spriteColor;
 
         public Unit(Game game, UnitData unitData, bool isReverted, TileManager tileManager) : base(game)
         {
@@ -31,6 +37,7 @@ namespace Heroes3.Drawable
 
         public override void Initialize()
         {
+            spriteColor = new Color(Color.White, 1);
             spriteBatch = new SpriteBatch(Game.GraphicsDevice);
 
             tileLocation = BattleMap.GetTileLocation(X, Y);
@@ -41,19 +48,25 @@ namespace Heroes3.Drawable
             base.Initialize();
         }
 
-        protected override void LoadContent()
-        {
-            var content = Game.Content;
-        }
-
         public override void Update(GameTime gameTime)
         {
-            if (InputManager.HasEntered(tileRectangle))
-                foreach (var move in possibleMoves)
-                    tileManager.HighlightedTiles.Add(move);
-            else if (InputManager.HasLeaved(tileRectangle))
-                foreach (var move in possibleMoves)
-                    tileManager.HighlightedTiles.Remove(move);
+            if (!isTurn)
+                if (InputManager.HasEntered(tileRectangle))
+                    tileManager.HighlightedTiles.AddRange(possibleMoves);
+                else if (InputManager.HasLeaved(tileRectangle))
+                    tileManager.HighlightedTiles.RemoveAll(it => possibleMoves.Contains(it));
+
+            if (isTurn)
+            {
+                highlightAnimationRemaining -= gameTime.ElapsedGameTime.Milliseconds;
+                if (highlightAnimationRemaining < 0)
+                {
+                    highlightAnimationRemaining = HIGHLIGHT_ANIMATION_SPEED;
+                    spriteColor.A += HIGHLIGHT_ANIMATION_ALPHA_INCREASE;
+                }
+            }
+            else
+                spriteColor.A = 255;
         }
 
         public override void Draw(GameTime gameTime)
@@ -63,23 +76,33 @@ namespace Heroes3.Drawable
             var animations = unitData.UnitAnimation.Animations;
             switch (CurrentAnimation)
             {
-                case AnimationType.Dying:
+                case AnimationType.Dead:
                     break;
-                case AnimationType.Movement:
+                case AnimationType.Move:
                     break;
-                case AnimationType.Attacking:
+                case AnimationType.Attack:
                     break;
-                case AnimationType.Nothing:
-                    var currentSprite = animations[AnimationType.Movement][0];
+                case AnimationType.Waiting:
+                    var currentSprite = animations[AnimationType.Move][0];
                     var tileLocation = BattleMap.GetTileLocation(X, Y);
                     tileLocation.Y -= currentSprite.Height - BattleMap.TILE_SIZE;
-                    spriteBatch.Draw(unitData.AnimationTexture, tileLocation, currentSprite, Color.White, 0, Vector2.Zero, 1, isReverted ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+                    spriteBatch.Draw(unitData.AnimationTexture, tileLocation, currentSprite, spriteColor, 0, Vector2.Zero, 1, isReverted ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
                     break;
                 default:
                     break;
             }
 
             spriteBatch.End();
+        }
+
+        public void SetIsTurn(bool isTurn)
+        {
+            if (isTurn)
+            {
+                this.isTurn = isTurn;
+
+                tileManager.HighlightedTiles.AddRange(possibleMoves);
+            }
         }
     }
 }

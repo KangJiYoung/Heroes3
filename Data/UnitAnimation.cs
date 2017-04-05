@@ -5,10 +5,10 @@ namespace Heroes3.Data
 {
     public enum AnimationType
     {
-        Dying,
-        Movement,
-        Attacking,
-        Nothing
+        Waiting,
+        Dead,
+        Move,
+        Attack
     }
 
     public class UnitAnimation

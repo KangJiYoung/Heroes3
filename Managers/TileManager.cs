@@ -8,7 +8,7 @@ namespace Heroes3.Managers
 {
     public class TileManager : DrawableGameComponent
     {
-        public IList<Vector2> HighlightedTiles { get; set; } = new List<Vector2>();
+        public List<Vector2> HighlightedTiles { get; set; } = new List<Vector2>();
 
         private SpriteBatch spriteBatch;
 
