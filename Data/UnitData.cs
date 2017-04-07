@@ -2,6 +2,13 @@
 
 namespace Heroes3.Data
 {
+    public enum UnitStatus
+    {
+        Waiting,
+        WaitingForAction,
+        Moving
+    }
+
     public class UnitData
     {
         public string Name { get; set; }

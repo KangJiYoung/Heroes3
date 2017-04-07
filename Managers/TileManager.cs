@@ -8,7 +8,7 @@ namespace Heroes3.Managers
 {
     public class TileManager : DrawableGameComponent
     {
-        public List<Vector2> HighlightedTiles { get; set; } = new List<Vector2>();
+        public List<UnitMapPath> CurrentUnitMapPaths { get; set; } = new List<UnitMapPath>();
 
         private SpriteBatch spriteBatch;
 
@@ -37,7 +37,7 @@ namespace Heroes3.Managers
                 for (int j = 0; j < BattleMap.Map.GetLength(1); j++)
                     spriteBatch.Draw(tileTexture, BattleMap.Map[i, j], Color.White);
 
-            foreach (var tile in HighlightedTiles)
+            foreach (var tile in CurrentUnitMapPaths.SelectMany(it => it.FreeTiles))
                 spriteBatch.Draw(tileTexture, BattleMap.Map[(int) tile.X, (int) tile.Y], Color.Red);
 
             spriteBatch.End();

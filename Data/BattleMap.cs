@@ -35,28 +35,34 @@ namespace Heroes3.Data
 
         public static Vector2 GetTileLocation(int x, int y) => Map[x, y];
 
-        public static IEnumerable<Vector2> GetPossibleMoves(int x, int y, int speed)
+        public static UnitMapPath GetUnitMapPath(int x, int y, int speed)
         {
             var start = new Vector2(x, y);
-            var visited = new List<Vector2> { start };
+            var unitMapPath = new UnitMapPath
+            {
+                CameFrom = new Dictionary<Vector2, Vector2> { [start] = start },
+                FreeTiles = new List<Vector2>()
+            };
 
             var neighbours = new Queue<Vector2>();
             neighbours.Enqueue(start);
 
             while (neighbours.Count > 0)
             {
-                var currentNeighbour = neighbours.Dequeue();
-                yield return currentNeighbour;
+                var current = neighbours.Dequeue();
+                unitMapPath.FreeTiles.Add(current);
 
-                foreach (var neighbour in GetNeighbours(currentNeighbour.X, currentNeighbour.Y))
-                    if (!visited.Contains(neighbour) &&
-                        GetTileDistance(neighbour, start) <= speed &&
-                        IsValidCoordinate(neighbour.X, neighbour.Y))
+                foreach (var next in GetNeighbours(current.X, current.Y))
+                    if (!unitMapPath.CameFrom.ContainsKey(next) &&
+                        GetTileDistance(next, start) <= speed &&
+                        IsValidCoordinate(next.X, next.Y))
                     {
-                        visited.Add(neighbour);
-                        neighbours.Enqueue(neighbour);
+                        unitMapPath.CameFrom[next] = current;
+                        neighbours.Enqueue(next);
                     }
             }
+
+            return unitMapPath;
         }
 
         private static double GetTileDistance(Vector2 tile1, Vector2 tile2)
@@ -69,14 +75,14 @@ namespace Heroes3.Data
             yield return new Vector2(x, y - 1); // Top
             yield return new Vector2(x, y + 1); // Bottom
 
-            yield return new Vector2(x - 1, y - 1); // Top Left
+            /*yield return new Vector2(x - 1, y - 1); // Top Left
             yield return new Vector2(x + 1, y + 1); // Top Right
             yield return new Vector2(x - 1, y + 1); // Bottom Left
-            yield return new Vector2(x + 1, y - 1); // Bottom Right
+            yield return new Vector2(x + 1, y - 1); // Bottom Right*/
         }
 
         private static bool IsValidCoordinate(float x, float y)
-            =>  x >= 0 && x < ROWS && 
+            => x >= 0 && x < ROWS &&
                 y >= 0 && y < COLUMNS;
     }
 }

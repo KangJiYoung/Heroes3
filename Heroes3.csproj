@@ -46,6 +46,7 @@
     <Compile Include="Data\DataLoader.cs" />
     <Compile Include="Data\Faction.cs" />
     <Compile Include="Data\UnitData.cs" />
+    <Compile Include="Data\UnitMapPath.cs" />
     <Compile Include="Data\XMLReader.cs" />
     <Compile Include="Drawable\Unit.cs" />
     <Compile Include="Fonts.cs" />
