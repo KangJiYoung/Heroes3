@@ -4,13 +4,14 @@ using Heroes3.Managers;
 using Heroes3.Screens.Base;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace Heroes3.Screens.Game
 {
     public class BattleScreen : GameScreen
     {
+        private Queue<Unit> unitActionOrder = new Queue<Unit>();
         private Faction player1Faction, player2Faction;
-
         private Texture2D battleBackgorund;
 
         public BattleScreen(Faction player1Faction, Faction player2Faction)
@@ -36,7 +37,17 @@ namespace Heroes3.Screens.Game
             ScreenManager.Game.Components.Add(player1Unit);
             ScreenManager.Game.Components.Add(player2Unit);
 
-            player2Unit.SetIsTurn(true);
+            unitActionOrder.Enqueue(player1Unit);
+            unitActionOrder.Enqueue(player2Unit);
+
+            foreach (var unit in unitActionOrder)
+                unit.OnActionFinshed += (sender, e) =>
+                {
+                    unitActionOrder.Enqueue((Unit)sender);
+                    unitActionOrder.Dequeue().SetIsTurn();
+                };
+
+            unitActionOrder.Dequeue().SetIsTurn();
 
             base.LoadContent();
         }

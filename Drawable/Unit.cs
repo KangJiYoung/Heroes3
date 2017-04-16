@@ -13,6 +13,8 @@ namespace Heroes3.Drawable
         public int Y { get; set; }
         public UnitStatus UnitStatus { get; set; }
 
+        public event EventHandler<EventArgs> OnActionFinshed;
+
         private const int
             HIGHLIGHT_ANIMATION_SPEED = 40,
             HIGHLIGHT_ANIMATION_ALPHA_INCREASE = 10;
@@ -126,7 +128,7 @@ namespace Heroes3.Drawable
                 var currentPath = unitMapPath.GetCurrentPath();
                 var currentPathLocation = BattleMap.GetTileLocation((int)currentPath.X, (int)currentPath.Y);
 
-                if (currentLocation == currentPathLocation)
+                if (Vector2.Distance(currentLocation, currentPathLocation) < 0.01f)
                 {
                     if (unitMapPath.IsLastPath())
                     {
@@ -136,6 +138,8 @@ namespace Heroes3.Drawable
                         unitMapPath = BattleMap.GetUnitMapPath(X, Y, unitData.Speed);
                         RecalculateLocation();
                         currentSpriteRectangle = unitData.UnitAnimation.Animations[AnimationType.Move][0];
+
+                        OnActionFinshed?.Invoke(this, EventArgs.Empty);
                     }
                     else
                     {
@@ -147,7 +151,7 @@ namespace Heroes3.Drawable
                     var direction = currentPathLocation - currentLocation;
                     direction.Normalize();
 
-                    currentLocation += direction;
+                    currentLocation += direction * ((BattleMap.TILE_SIZE + BattleMap.TILE_SPACE) / (float)unitData.UnitAnimation.Animations[AnimationType.Move].Count);
                 }
             }
         }
@@ -171,13 +175,10 @@ namespace Heroes3.Drawable
             spriteBatch.End();
         }
 
-        public void SetIsTurn(bool isTurn)
+        public void SetIsTurn()
         {
-            if (isTurn)
-            {
-                UnitStatus = UnitStatus.WaitingForAction;
-                tileManager.CurrentUnitMapPaths.Add(unitMapPath);
-            }
+            UnitStatus = UnitStatus.WaitingForAction;
+            tileManager.CurrentUnitMapPaths.Add(unitMapPath);
         }
     }
 }

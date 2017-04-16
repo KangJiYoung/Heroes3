@@ -33,12 +33,12 @@ namespace Heroes3.Managers
         {
             spriteBatch.Begin();
 
-            for (int i = 0; i < BattleMap.Map.GetLength(0); i++)
-                for (int j = 0; j < BattleMap.Map.GetLength(1); j++)
-                    spriteBatch.Draw(tileTexture, BattleMap.Map[i, j], Color.White);
+            for (int i = 0; i < BattleMap.ROWS; i++)
+                for (int j = 0; j < BattleMap.COLUMNS; j++)
+                    spriteBatch.Draw(tileTexture, BattleMap.GetTileLocation(i, j), Color.White);
 
             foreach (var tile in CurrentUnitMapPaths.SelectMany(it => it.FreeTiles))
-                spriteBatch.Draw(tileTexture, BattleMap.Map[(int) tile.X, (int) tile.Y], Color.Red);
+                spriteBatch.Draw(tileTexture, BattleMap.GetTileLocation((int) tile.X, (int) tile.Y), Color.Red);
 
             spriteBatch.End();
 

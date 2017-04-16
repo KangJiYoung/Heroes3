@@ -6,12 +6,13 @@ namespace Heroes3.Data
 {
     public static class BattleMap
     {
-        public static int TILE_SIZE = 45;
-        public static Vector2[,] Map { get; set; } = new Vector2[ROWS, COLUMNS];
-
-        private const int
+        public static int 
+            TILE_SIZE = 45,
+            TILE_SPACE = 4,
             ROWS = 10,
             COLUMNS = 23;
+
+        private static Vector2[,] map = new Vector2[ROWS, COLUMNS];
 
         static BattleMap()
         {
@@ -24,16 +25,16 @@ namespace Heroes3.Data
 
                 for (int j = 0; j < COLUMNS; j++)
                 {
-                    Map[i, j] = new Vector2(currentXoffset + j * TILE_SIZE, initialYoffset + i * TILE_SIZE);
+                    map[i, j] = new Vector2(currentXoffset + j * TILE_SIZE, initialYoffset + i * TILE_SIZE);
 
-                    currentXoffset += 4;
+                    currentXoffset += TILE_SPACE;
                 }
 
-                initialYoffset += 4;
+                initialYoffset += TILE_SPACE;
             }
         }
 
-        public static Vector2 GetTileLocation(int x, int y) => Map[x, y];
+        public static Vector2 GetTileLocation(int x, int y) => map[x, y];
 
         public static UnitMapPath GetUnitMapPath(int x, int y, int speed)
         {
@@ -83,6 +84,6 @@ namespace Heroes3.Data
 
         private static bool IsValidCoordinate(float x, float y)
             => x >= 0 && x < ROWS &&
-                y >= 0 && y < COLUMNS;
+               y >= 0 && y < COLUMNS;
     }
 }

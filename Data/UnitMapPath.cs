@@ -18,10 +18,9 @@ namespace Heroes3.Data
             var current = CameFrom[destination];
             while (current != start)
             {
-                Path.Add(current);
+                Path.Insert(0, current);
                 current = CameFrom[current];
             }
-            Path.Reverse();
 
             pathIndex = 0;
         }
