@@ -6,6 +6,7 @@ using Heroes3.Data;
 using System.Collections.Generic;
 using System.Linq;
 using Heroes3.Screens.Game;
+using Heroes3.Managers;
 
 namespace Heroes3.Screens.Menu
 {
@@ -15,6 +16,7 @@ namespace Heroes3.Screens.Menu
         private Faction player1Faction, player2Faction;
 
         private Texture2D leftButton, rightButton;
+        private CursorManager cursorManager;
 
         public GameSelectMenuScreen()
         {

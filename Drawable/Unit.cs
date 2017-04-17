@@ -21,7 +21,7 @@ namespace Heroes3.Drawable
         private int highlightAnimationRemaining = HIGHLIGHT_ANIMATION_SPEED;
 
         private const int
-            MOVING_ANIMATION_SPEED = 24;
+            MOVING_ANIMATION_SPEED = 40;
         private int
             movingAnimationRemaining = MOVING_ANIMATION_SPEED;
 
@@ -85,9 +85,9 @@ namespace Heroes3.Drawable
         private void HandleUnitWaiting(GameTime gameTime)
         {
             if (InputManager.HasEntered(currentRectangle))
-                tileManager.CurrentUnitMapPaths.Add(unitMapPath);
+                tileManager.AddUnitMapPath(unitMapPath);
             else if (InputManager.HasLeaved(currentRectangle))
-                tileManager.CurrentUnitMapPaths.Remove(unitMapPath);
+                tileManager.RemoveUnitMapPath(unitMapPath);
         }
 
         private void HandleUnitWaitingForAction(GameTime gameTime)
@@ -110,9 +110,28 @@ namespace Heroes3.Drawable
                     {
                         spriteColor.A = 255;
                         UnitStatus = UnitStatus.Moving;
-                        tileManager.CurrentUnitMapPaths.Remove(unitMapPath);
+                        CursorManager.CurrentCursorType = CursorType.Normal;
+                        tileManager.RemoveUnitMapPath(unitMapPath);
                         unitMapPath.GeneratePath(new Vector2(X, Y), move);
                     }
+                }
+            }
+
+            foreach (var freeTile in unitMapPath.FreeTiles)
+            {
+                var tileLocation = BattleMap.GetTileLocation((int)freeTile.X, (int)freeTile.Y);
+                var tileRectangle = new Rectangle((int)tileLocation.X, (int)tileLocation.Y, BattleMap.TILE_SIZE, BattleMap.TILE_SIZE);
+
+                if (InputManager.HasEntered(tileRectangle))
+                {
+                    CursorManager.CurrentCursorType = CursorType.Move;
+                    break;
+                }
+
+                if (InputManager.HasLeaved(tileRectangle))
+                {
+                    CursorManager.CurrentCursorType = CursorType.Normal;
+                    break;
                 }
             }
         }
@@ -151,7 +170,7 @@ namespace Heroes3.Drawable
                     var direction = currentPathLocation - currentLocation;
                     direction.Normalize();
 
-                    currentLocation += direction * ((BattleMap.TILE_SIZE + BattleMap.TILE_SPACE) / (float)unitData.UnitAnimation.Animations[AnimationType.Move].Count);
+                    currentLocation += direction * ((BattleMap.TILE_SIZE + BattleMap.TILE_SPACE) / (float)unitData.UnitAnimation.Animations[AnimationType.Move].Count) * 0.5f;
                 }
             }
         }
@@ -178,7 +197,8 @@ namespace Heroes3.Drawable
         public void SetIsTurn()
         {
             UnitStatus = UnitStatus.WaitingForAction;
-            tileManager.CurrentUnitMapPaths.Add(unitMapPath);
+
+            tileManager.AddUnitMapPath(unitMapPath);
         }
     }
 }

@@ -10,6 +10,7 @@ namespace Heroes3
     {
         private GraphicsDeviceManager graphics;
         private ScreenManager screenManager;
+        private CursorManager cursorManager;
 
         public Heroes()
         {
@@ -22,8 +23,7 @@ namespace Heroes3
 
             screenManager = new ScreenManager(this);
             Components.Add(screenManager);
-
-            IsMouseVisible = true;
+            Components.Add(new CursorManager(this));
         }
 
         protected override void Initialize()

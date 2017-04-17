@@ -1,4 +1,5 @@
-﻿using Heroes3.Screens.Base;
+﻿using Heroes3.Managers;
+using Heroes3.Screens.Base;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;

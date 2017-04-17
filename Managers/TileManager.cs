@@ -8,11 +8,9 @@ namespace Heroes3.Managers
 {
     public class TileManager : DrawableGameComponent
     {
-        public List<UnitMapPath> CurrentUnitMapPaths { get; set; } = new List<UnitMapPath>();
-
         private SpriteBatch spriteBatch;
-
         private Texture2D tileTexture;
+        private List<UnitMapPath> unitMapPaths = new List<UnitMapPath>();
 
         public TileManager(Game game) : base(game)
         {
@@ -37,12 +35,21 @@ namespace Heroes3.Managers
                 for (int j = 0; j < BattleMap.COLUMNS; j++)
                     spriteBatch.Draw(tileTexture, BattleMap.GetTileLocation(i, j), Color.White);
 
-            foreach (var tile in CurrentUnitMapPaths.SelectMany(it => it.FreeTiles))
-                spriteBatch.Draw(tileTexture, BattleMap.GetTileLocation((int) tile.X, (int) tile.Y), Color.Red);
+            foreach (var tile in unitMapPaths.SelectMany(it => it.FreeTiles))
+                spriteBatch.Draw(tileTexture, BattleMap.GetTileLocation((int)tile.X, (int)tile.Y), Color.Red);
 
             spriteBatch.End();
 
             base.Draw(gameTime);
         }
+
+        public void AddUnitMapPath(UnitMapPath unitMapPath)
+        {
+            if (!unitMapPaths.Contains(unitMapPath))
+                unitMapPaths.Add(unitMapPath);
+        }
+
+        public void RemoveUnitMapPath(UnitMapPath unitMapPath)
+            => unitMapPaths.Remove(unitMapPath);
     }
 }

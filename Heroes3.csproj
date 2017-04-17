@@ -51,6 +51,7 @@
     <Compile Include="Drawable\Unit.cs" />
     <Compile Include="Fonts.cs" />
     <Compile Include="Heroes.cs" />
+    <Compile Include="Managers\CursorManager.cs" />
     <Compile Include="Managers\InputManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -75,6 +76,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Animations\Castle\HalbedierAnimation.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Cursor\Cursors.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Icon.ico" />
