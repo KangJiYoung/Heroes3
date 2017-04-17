@@ -1,4 +1,5 @@
 ﻿using Heroes3.Data;
+using Heroes3.Drawable;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -10,10 +11,11 @@ namespace Heroes3.Managers
     {
         private SpriteBatch spriteBatch;
         private Texture2D tileTexture;
-        private List<UnitMapPath> unitMapPaths = new List<UnitMapPath>();
+        private IList<Unit> units;
 
-        public TileManager(Game game) : base(game)
+        public TileManager(Game game, IList<Unit> units) : base(game)
         {
+            this.units = units;
         }
 
         public override void Initialize()
@@ -35,21 +37,20 @@ namespace Heroes3.Managers
                 for (int j = 0; j < BattleMap.COLUMNS; j++)
                     spriteBatch.Draw(tileTexture, BattleMap.GetTileLocation(i, j), Color.White);
 
-            foreach (var tile in unitMapPaths.SelectMany(it => it.FreeTiles))
-                spriteBatch.Draw(tileTexture, BattleMap.GetTileLocation((int)tile.X, (int)tile.Y), Color.Red);
+            foreach(var unit in units.Where(it => it.ShowUnitMapPath))
+            {
+                var unitMapPath = BattleMap.GetUnitMapPath(unit.X, unit.Y, unit.UnitData.Speed);
+
+                foreach (var tile in unitMapPath.FreeTiles)
+                    spriteBatch.Draw(tileTexture, BattleMap.GetTileLocation((int)tile.X, (int)tile.Y), Color.Black);
+
+                foreach (var tile in unitMapPath.Enemies)
+                    spriteBatch.Draw(tileTexture, BattleMap.GetTileLocation((int)tile.X, (int)tile.Y), Color.Red);
+            }
 
             spriteBatch.End();
 
             base.Draw(gameTime);
         }
-
-        public void AddUnitMapPath(UnitMapPath unitMapPath)
-        {
-            if (!unitMapPaths.Contains(unitMapPath))
-                unitMapPaths.Add(unitMapPath);
-        }
-
-        public void RemoveUnitMapPath(UnitMapPath unitMapPath)
-            => unitMapPaths.Remove(unitMapPath);
     }
 }

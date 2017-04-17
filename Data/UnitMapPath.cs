@@ -8,6 +8,7 @@ namespace Heroes3.Data
         private int pathIndex;
         public List<Vector2> Path { get; set; }
 
+        public IList<Vector2> Enemies { get; set; }
         public IList<Vector2> FreeTiles { get; set; }
         public IDictionary<Vector2, Vector2> CameFrom { get; set; }
 
@@ -28,5 +29,11 @@ namespace Heroes3.Data
         public bool IsLastPath() => pathIndex == Path.Count - 1;
         public Vector2 GetCurrentPath() => Path[pathIndex];
         public void NextPath() => pathIndex++;
+
+        public void AddEnemy(Vector2 enemyPosition)
+        {
+            if (!Enemies.Contains(enemyPosition))
+                Enemies.Add(enemyPosition);
+        }
     }
 }

@@ -11,7 +11,9 @@ namespace Heroes3.Drawable
     {
         public int X { get; set; }
         public int Y { get; set; }
+        public bool ShowUnitMapPath { get; set; }
         public UnitStatus UnitStatus { get; set; }
+        public UnitData UnitData { get; set; }
 
         public event EventHandler<EventArgs> OnActionFinshed;
 
@@ -27,19 +29,15 @@ namespace Heroes3.Drawable
 
         private bool isReverted;
 
-        private UnitData unitData;
         private SpriteBatch spriteBatch;
-        private TileManager tileManager;
         private Vector2 currentLocation;
         private Rectangle currentRectangle, currentSpriteRectangle;
         private UnitMapPath unitMapPath;
         private Color spriteColor;
 
-        public Unit(Game game, UnitData unitData, bool isReverted, TileManager tileManager) : base(game)
+        public Unit(Game game, bool isReverted) : base(game)
         {
-            this.unitData = unitData;
             this.isReverted = isReverted;
-            this.tileManager = tileManager;
         }
 
         public override void Initialize()
@@ -47,9 +45,9 @@ namespace Heroes3.Drawable
             spriteColor = Color.White;
             spriteBatch = new SpriteBatch(Game.GraphicsDevice);
 
-            unitMapPath = BattleMap.GetUnitMapPath(X, Y, unitData.Speed);
+            unitMapPath = BattleMap.GetUnitMapPath(X, Y, UnitData.Speed);
 
-            currentSpriteRectangle = unitData.UnitAnimation.Animations[AnimationType.Move][0];
+            currentSpriteRectangle = UnitData.UnitAnimation.Animations[AnimationType.Move][0];
 
             RecalculateLocation();
 
@@ -85,9 +83,9 @@ namespace Heroes3.Drawable
         private void HandleUnitWaiting(GameTime gameTime)
         {
             if (InputManager.HasEntered(currentRectangle))
-                tileManager.AddUnitMapPath(unitMapPath);
+                ShowUnitMapPath = true;
             else if (InputManager.HasLeaved(currentRectangle))
-                tileManager.RemoveUnitMapPath(unitMapPath);
+                ShowUnitMapPath = false;
         }
 
         private void HandleUnitWaitingForAction(GameTime gameTime)
@@ -110,9 +108,10 @@ namespace Heroes3.Drawable
                     {
                         spriteColor.A = 255;
                         UnitStatus = UnitStatus.Moving;
+                        ShowUnitMapPath = false;
                         CursorManager.CurrentCursorType = CursorType.Normal;
-                        tileManager.RemoveUnitMapPath(unitMapPath);
                         unitMapPath.GeneratePath(new Vector2(X, Y), move);
+                        BattleMap.MoveUnit(new Vector2(X, Y), move);
                     }
                 }
             }
@@ -142,7 +141,7 @@ namespace Heroes3.Drawable
             if (movingAnimationRemaining < 0)
             {
                 movingAnimationRemaining = MOVING_ANIMATION_SPEED;
-                currentSpriteRectangle = unitData.UnitAnimation.GetNextAnimation(AnimationType.Move);
+                currentSpriteRectangle = UnitData.UnitAnimation.GetNextAnimation(AnimationType.Move);
 
                 var currentPath = unitMapPath.GetCurrentPath();
                 var currentPathLocation = BattleMap.GetTileLocation((int)currentPath.X, (int)currentPath.Y);
@@ -154,9 +153,10 @@ namespace Heroes3.Drawable
                         UnitStatus = UnitStatus.Waiting;
                         X = (int)currentPath.X;
                         Y = (int)currentPath.Y;
-                        unitMapPath = BattleMap.GetUnitMapPath(X, Y, unitData.Speed);
+
+                        unitMapPath = BattleMap.GetUnitMapPath(X, Y, UnitData.Speed);
                         RecalculateLocation();
-                        currentSpriteRectangle = unitData.UnitAnimation.Animations[AnimationType.Move][0];
+                        currentSpriteRectangle = UnitData.UnitAnimation.Animations[AnimationType.Move][0];
 
                         OnActionFinshed?.Invoke(this, EventArgs.Empty);
                     }
@@ -170,7 +170,7 @@ namespace Heroes3.Drawable
                     var direction = currentPathLocation - currentLocation;
                     direction.Normalize();
 
-                    currentLocation += direction * ((BattleMap.TILE_SIZE + BattleMap.TILE_SPACE) / (float)unitData.UnitAnimation.Animations[AnimationType.Move].Count) * 0.5f;
+                    currentLocation += direction * ((BattleMap.TILE_SIZE + BattleMap.TILE_SPACE) / (float)UnitData.UnitAnimation.Animations[AnimationType.Move].Count);// * 0.5f;
                 }
             }
         }
@@ -182,7 +182,7 @@ namespace Heroes3.Drawable
             spriteBatch.Begin();
 
             spriteBatch.Draw(
-                unitData.AnimationTexture,
+                UnitData.AnimationTexture,
                 new Vector2(currentLocation.X, currentLocation.Y - currentSpriteRectangle.Height + BattleMap.TILE_SIZE),
                 currentSpriteRectangle,
                 spriteColor,
@@ -197,8 +197,9 @@ namespace Heroes3.Drawable
         public void SetIsTurn()
         {
             UnitStatus = UnitStatus.WaitingForAction;
+            ShowUnitMapPath = true;
 
-            tileManager.AddUnitMapPath(unitMapPath);
+            unitMapPath = BattleMap.GetUnitMapPath(X, Y, UnitData.Speed);
         }
     }
 }

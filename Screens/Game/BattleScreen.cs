@@ -22,9 +22,6 @@ namespace Heroes3.Screens.Game
 
         public override void LoadContent()
         {
-            var tileManager = new TileManager(ScreenManager.Game);
-            ScreenManager.Game.Components.Add(tileManager);
-
             var content = ScreenManager.Game.Content;
 
             battleBackgorund = content.Load<Texture2D>("Images/Game/Battle/BattleBackground");
@@ -32,8 +29,14 @@ namespace Heroes3.Screens.Game
             player1Faction.LoadContent(content);
             player2Faction.LoadContent(content);
 
-            var player1Unit = new Unit(ScreenManager.Game, player1Faction.Units[0], false, tileManager);
-            var player2Unit = new Unit(ScreenManager.Game, player1Faction.Units[0], true, tileManager) { Y = 22 };
+            BattleMap.Initialize(new List<Vector2> { new Vector2(0, 0), new Vector2(0, 22) });
+
+            var player1Unit = new Unit(ScreenManager.Game, false) { UnitData = player1Faction.Units[0] };
+            var player2Unit = new Unit(ScreenManager.Game, true) { UnitData = player1Faction.Units[0], Y = 22 };
+
+            var tileManager = new TileManager(ScreenManager.Game, new List<Unit> { player1Unit, player2Unit });
+            ScreenManager.Game.Components.Add(tileManager);
+
             ScreenManager.Game.Components.Add(player1Unit);
             ScreenManager.Game.Components.Add(player2Unit);
 
