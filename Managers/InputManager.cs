@@ -21,13 +21,19 @@ namespace Heroes3.Managers
         public static Rectangle GetOldMousePosition()
             => new Rectangle(previousMouseState.X, previousMouseState.Y, 1, 1);
 
+        public static System.Drawing.RectangleF GetOldMousePositionAsFloat()
+            => new System.Drawing.RectangleF(previousMouseState.X, previousMouseState.Y, 1, 1);
+
         public static Rectangle GetCurrentMousePosition()
             => new Rectangle(currentMouseState.X, currentMouseState.Y, 1, 1);
 
-        public static bool HasEntered(Rectangle rectangle)
-            => GetCurrentMousePosition().Intersects(rectangle) && !GetOldMousePosition().Intersects(rectangle);
+        public static System.Drawing.RectangleF GetCurrentMousePositionAsFloat()
+            => new System.Drawing.RectangleF(currentMouseState.X, currentMouseState.Y, 1, 1);
 
-        public static bool HasLeaved(Rectangle rectangle)
-            => !GetCurrentMousePosition().Intersects(rectangle) && GetOldMousePosition().Intersects(rectangle);
+        public static bool HasEntered(System.Drawing.RectangleF rectangle)
+            => GetCurrentMousePositionAsFloat().IntersectsWith(rectangle) && !GetOldMousePositionAsFloat().IntersectsWith(rectangle);
+
+        public static bool HasLeaved(System.Drawing.RectangleF rectangle)
+            => !GetCurrentMousePositionAsFloat().IntersectsWith(rectangle) && GetOldMousePositionAsFloat().IntersectsWith(rectangle);
     }
 }

@@ -15,7 +15,7 @@ namespace Heroes3.Screens.Base
                 ScreenManager.RemoveScreen(this);
         }
 
-        public virtual void HandleInput() { }
+        public virtual void HandleInput(GameTime gameTime) { }
 
         public virtual void Draw(GameTime gameTime) { }
 

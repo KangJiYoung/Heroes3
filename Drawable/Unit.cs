@@ -6,15 +6,19 @@ using System;
 
 namespace Heroes3.Drawable
 {
-    public class Unit : DrawableGameComponent
+    public class Unit
     {
-        public int X { get; set; }
-        public int Y { get; set; }
-        public bool ShowUnitMapPath { get; set; }
-        public UnitStatus UnitStatus { get; set; }
-        public UnitData UnitData { get; set; }
+        public Color SpriteColor;
 
-        public event EventHandler<EventArgs> OnActionFinshed;
+        public UnitData UnitData { get; set; }
+        public UnitStatus UnitStatus { get; set; }
+        public System.Drawing.RectangleF LocationRectangle { get; set; }
+        public UnitMapPath UnitMapPath { get; set; }
+
+        public event EventHandler<EventArgs>
+            OnMoveFinished,
+            OnMouseEnter,
+            OnMouseLeave;
 
         private const int
             HIGHLIGHT_ANIMATION_SPEED = 40,
@@ -28,43 +32,26 @@ namespace Heroes3.Drawable
 
         private bool isReverted;
 
-        private SpriteBatch spriteBatch;
-        private Vector2 currentLocation;
-        private Rectangle currentRectangle, currentSpriteRectangle;
-        private UnitMapPath unitMapPath;
-        private Color spriteColor;
+        private Rectangle currentSpriteRectangle;
 
-        public Unit(Game game, bool isReverted) : base(game)
+        public Unit(bool isReverted)
         {
             this.isReverted = isReverted;
         }
 
-        public override void Initialize()
+        public void Initialize()
         {
-            spriteColor = Color.White;
-            spriteBatch = new SpriteBatch(Game.GraphicsDevice);
-
-            unitMapPath = BattleMap.GetUnitMapPath(X, Y, UnitData.Speed);
+            SpriteColor = Color.White;
 
             currentSpriteRectangle = UnitData.UnitAnimation.Animations[AnimationType.Move][0];
-
-            RecalculateLocation();
-
-            base.Initialize();
         }
 
-        private void RecalculateLocation()
-        {
-            currentLocation = BattleMap.GetTileLocation(X, Y);
-            currentRectangle = new Rectangle((int)currentLocation.X, (int)currentLocation.Y, BattleMap.TILE_SIZE, BattleMap.TILE_SIZE);
-        }
-
-        public override void Update(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
             switch (UnitStatus)
             {
                 case UnitStatus.Waiting:
-                    HandleUnitWaiting(gameTime);
+                    HandleUnitWaiting();
                     break;
                 case UnitStatus.WaitingForAction:
                     HandleUnitWaitingForAction(gameTime);
@@ -79,12 +66,13 @@ namespace Heroes3.Drawable
 
         #region Unit Actions
 
-        private void HandleUnitWaiting(GameTime gameTime)
+        private void HandleUnitWaiting()
         {
-            if (InputManager.HasEntered(currentRectangle))
-                ShowUnitMapPath = true;
-            else if (InputManager.HasLeaved(currentRectangle))
-                ShowUnitMapPath = false;
+            if (InputManager.HasEntered(LocationRectangle))
+                OnMouseEnter?.Invoke(this, EventArgs.Empty);
+
+            if (InputManager.HasLeaved(LocationRectangle))
+                OnMouseLeave?.Invoke(this, EventArgs.Empty);
         }
 
         private void HandleUnitWaitingForAction(GameTime gameTime)
@@ -93,126 +81,8 @@ namespace Heroes3.Drawable
             if (highlightAnimationRemaining > HIGHLIGHT_ANIMATION_SPEED)
             {
                 highlightAnimationRemaining -= HIGHLIGHT_ANIMATION_SPEED;
-                spriteColor.A += HIGHLIGHT_ANIMATION_ALPHA_INCREASE;
+                SpriteColor.A += HIGHLIGHT_ANIMATION_ALPHA_INCREASE;
             }
-
-            if (InputManager.IsMouseClick())
-            {
-                var mousePosition = InputManager.GetCurrentMousePosition();
-
-                foreach (var move in unitMapPath.FreeTiles)
-                {
-                    var tileRectangle = GetTileRectangle(move);
-
-                    if (mousePosition.Intersects(tileRectangle))
-                        TriggerUnitToMove(move);
-                }
-            }
-
-            foreach (var freeTile in unitMapPath.FreeTiles)
-            {
-                var tileRectangle = GetTileRectangle(freeTile);
-
-                if (InputManager.HasEntered(tileRectangle))
-                {
-                    CursorManager.CurrentCursorType = CursorType.Move;
-                    break;
-                }
-                else if (InputManager.HasLeaved(tileRectangle))
-                {
-                    CursorManager.CurrentCursorType = CursorType.Normal;
-                    break;
-                }
-            }
-
-            foreach (var enemyTile in unitMapPath.Enemies)
-            {
-                var mousePosition = InputManager.GetCurrentMousePosition();
-                var tileRectangle = GetTileRectangle(enemyTile);
-
-                if (mousePosition.Intersects(tileRectangle))
-                {
-                    var tileXOffset = (mousePosition.X - tileRectangle.X) / 15;
-                    var tileYOffset = (mousePosition.Y - tileRectangle.Y) / 15;
-
-                    if (tileXOffset == 0 && tileYOffset == 0)
-                        CursorManager.CurrentCursorType = CursorType.AttackFromTopLeft;
-                    else if (tileXOffset == 1 && tileYOffset == 0)
-                        CursorManager.CurrentCursorType = CursorType.AttackFromTop;
-                    else if (tileXOffset == 2 && tileYOffset == 0)
-                        CursorManager.CurrentCursorType = CursorType.AttackFromTopRight;
-
-                    else if (tileXOffset == 0 && tileYOffset == 1)
-                        CursorManager.CurrentCursorType = CursorType.AttackFromLeft;
-                    else if (tileXOffset == 2 && tileYOffset == 1)
-                        CursorManager.CurrentCursorType = CursorType.AttackFromRight;
-
-                    else if (tileXOffset == 0 && tileYOffset == 2)
-                        CursorManager.CurrentCursorType = CursorType.AttackFromBottomLeft;
-                    else if (tileXOffset == 1 && tileYOffset == 2)
-                        CursorManager.CurrentCursorType = CursorType.AttackFromBottom;
-                    else if (tileXOffset == 2 && tileYOffset == 2)
-                        CursorManager.CurrentCursorType = CursorType.AttackFromBottomRight;
-
-                    if (InputManager.IsMouseClick())
-                    {
-                        var attackTile = GetAttackTile(enemyTile);
-                        if (unitMapPath.FreeTiles.Contains(attackTile))
-                            TriggerUnitToMove(attackTile);
-                    }
-
-                    break;
-                }
-                else if (InputManager.HasLeaved(tileRectangle))
-                {
-                    CursorManager.CurrentCursorType = CursorType.Normal;
-                    break;
-                }
-            }
-        }
-
-        private void TriggerUnitToMove(Vector2 move)
-        {
-            spriteColor.A = 255;
-            UnitStatus = UnitStatus.Moving;
-            ShowUnitMapPath = false;
-            CursorManager.CurrentCursorType = CursorType.Normal;
-            unitMapPath.GeneratePath(new Vector2(X, Y), move);
-            BattleMap.MoveUnit(new Vector2(X, Y), move);
-        }
-
-        private static Vector2 GetAttackTile(Vector2 enemyTile)
-        {
-            switch (CursorManager.CurrentCursorType)
-            {
-                case CursorType.AttackFromBottom:
-                    return new Vector2(enemyTile.X + 1, enemyTile.Y);
-                case CursorType.AttackFromBottomLeft:
-                    return new Vector2(enemyTile.X + 1, enemyTile.Y - 1);
-                case CursorType.AttackFromBottomRight:
-                    return new Vector2(enemyTile.X + 1, enemyTile.Y + 1);
-                case CursorType.AttackFromTop:
-                    return new Vector2(enemyTile.X - 1, enemyTile.Y);
-                case CursorType.AttackFromTopLeft:
-                    return new Vector2(enemyTile.X - 1, enemyTile.Y - 1);
-                case CursorType.AttackFromTopRight:
-                    return new Vector2(enemyTile.X - 1, enemyTile.Y + 1);
-                case CursorType.AttackFromLeft:
-                    return new Vector2(enemyTile.X, enemyTile.Y - 1);
-                case CursorType.AttackFromRight:
-                    return new Vector2(enemyTile.X, enemyTile.Y + 1);
-                case CursorType.RangeAttack:
-                    return Vector2.Zero;
-                default:
-                    throw new Exception("This should never happer!");
-            }
-        }
-
-        private static Rectangle GetTileRectangle(Vector2 move)
-        {
-            var tileLocation = BattleMap.GetTileLocation((int)move.X, (int)move.Y);
-            var tileRectangle = new Rectangle((int)tileLocation.X, (int)tileLocation.Y, BattleMap.TILE_SIZE, BattleMap.TILE_SIZE);
-            return tileRectangle;
         }
 
         private void HandleUnitMoving(GameTime gameTime)
@@ -223,26 +93,21 @@ namespace Heroes3.Drawable
                 movingAnimationRemaining -= MOVING_ANIMATION_SPEED;
                 currentSpriteRectangle = UnitData.UnitAnimation.GetNextAnimation(AnimationType.Move);
 
-                var currentPath = unitMapPath.GetCurrentPath();
+                var currentPath = UnitMapPath.GetCurrentPath();
+                var currentLocation = new Vector2(LocationRectangle.X, LocationRectangle.Y);
                 var currentPathLocation = BattleMap.GetTileLocation((int)currentPath.X, (int)currentPath.Y);
 
                 if (Vector2.Distance(currentLocation, currentPathLocation) < 0.01f)
                 {
-                    if (unitMapPath.IsLastPath())
+                    if (UnitMapPath.IsLastPath())
                     {
-                        UnitStatus = UnitStatus.Waiting;
-                        X = (int)currentPath.X;
-                        Y = (int)currentPath.Y;
-
-                        unitMapPath = BattleMap.GetUnitMapPath(X, Y, UnitData.Speed);
-                        RecalculateLocation();
                         currentSpriteRectangle = UnitData.UnitAnimation.Animations[AnimationType.Move][0];
 
-                        OnActionFinshed?.Invoke(this, EventArgs.Empty);
+                        OnMoveFinished?.Invoke(this, EventArgs.Empty);
                     }
                     else
                     {
-                        unitMapPath.NextPath();
+                        UnitMapPath.NextPath();
                     }
                 }
                 else
@@ -251,21 +116,21 @@ namespace Heroes3.Drawable
                     direction.Normalize();
 
                     currentLocation += direction * ((BattleMap.TILE_SIZE + BattleMap.TILE_SPACE) / (float)UnitData.UnitAnimation.Animations[AnimationType.Move].Count);// * 0.5f;
+
+                    LocationRectangle = new System.Drawing.RectangleF(currentLocation.X, currentLocation.Y, BattleMap.TILE_SIZE, BattleMap.TILE_SIZE);
                 }
             }
         }
 
         #endregion
 
-        public override void Draw(GameTime gameTime)
+        public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
-
             spriteBatch.Draw(
                 UnitData.AnimationTexture,
-                new Vector2(currentLocation.X, currentLocation.Y - currentSpriteRectangle.Height + BattleMap.TILE_SIZE),
+                new Vector2(LocationRectangle.X, LocationRectangle.Y - currentSpriteRectangle.Height + BattleMap.TILE_SIZE),
                 currentSpriteRectangle,
-                spriteColor,
+                SpriteColor,
                 0,
                 Vector2.Zero,
                 1,
@@ -274,16 +139,6 @@ namespace Heroes3.Drawable
 
             //DEBUG
             spriteBatch.DrawString(Fonts.MainFont, CursorManager.CurrentCursorType.ToString(), Vector2.Zero, Color.Red);
-
-            spriteBatch.End();
-        }
-
-        public void SetIsTurn()
-        {
-            UnitStatus = UnitStatus.WaitingForAction;
-            ShowUnitMapPath = true;
-
-            unitMapPath = BattleMap.GetUnitMapPath(X, Y, UnitData.Speed);
         }
     }
 }

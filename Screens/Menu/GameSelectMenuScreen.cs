@@ -12,11 +12,12 @@ namespace Heroes3.Screens.Menu
 {
     public class GameSelectMenuScreen : MenuScreen
     {
-        private IList<Faction> factions = new List<Faction>();
+        private IList<Faction> 
+            player1Factions = new List<Faction>(),
+            player2Factions = new List<Faction>();
         private Faction player1Faction, player2Faction;
 
         private Texture2D leftButton, rightButton;
-        private CursorManager cursorManager;
 
         public GameSelectMenuScreen()
         {
@@ -45,20 +46,20 @@ namespace Heroes3.Screens.Menu
 
         private void OnPlayer1LeftFactionSelectedEntry(object sender, EventArgs e)
         {
-            var currentIndex = factions.IndexOf(player1Faction);
+            var currentIndex = player1Factions.IndexOf(player1Faction);
             if (--currentIndex < 0)
-                currentIndex = factions.Count - 1;
+                currentIndex = player1Factions.Count - 1;
 
-            player1Faction = factions[currentIndex];
+            player1Faction = player1Factions[currentIndex];
         }
 
         private void OnPlayer1RightFactionSelectedEntry(object sender, EventArgs e)
         {
-            var currentIndex = factions.IndexOf(player1Faction);
-            if (++currentIndex == factions.Count)
+            var currentIndex = player1Factions.IndexOf(player1Faction);
+            if (++currentIndex == player1Factions.Count)
                 currentIndex = 0;
 
-            player1Faction = factions[currentIndex];
+            player1Faction = player1Factions[currentIndex];
         }
 
         #endregion
@@ -67,20 +68,20 @@ namespace Heroes3.Screens.Menu
 
         private void OnPlayer2LeftFactionSelectedEntry(object sender, EventArgs e)
         {
-            var currentIndex = factions.IndexOf(player2Faction);
+            var currentIndex = player2Factions.IndexOf(player2Faction);
             if (--currentIndex < 0)
-                currentIndex = factions.Count - 1;
+                currentIndex = player2Factions.Count - 1;
 
-            player2Faction = factions[currentIndex];
+            player2Faction = player2Factions[currentIndex];
         }
 
         private void OnPlayer2RightFactionSelectedEntry(object sender, EventArgs e)
         {
-            var currentIndex = factions.IndexOf(player2Faction);
-            if (++currentIndex == factions.Count)
+            var currentIndex = player2Factions.IndexOf(player2Faction);
+            if (++currentIndex == player2Factions.Count)
                 currentIndex = 0;
 
-            player2Faction = factions[currentIndex];
+            player2Faction = player2Factions[currentIndex];
         } 
 
         #endregion
@@ -101,10 +102,16 @@ namespace Heroes3.Screens.Menu
             foreach (var faction in DataLoader.GetFactions())
             {
                 faction.ImageTexture = content.Load<Texture2D>(faction.Image);
-                factions.Add(faction);
+                player1Factions.Add(faction);
             }
-            player1Faction = factions.First();
-            player2Faction = factions.First();
+            player1Faction = player1Factions.First();
+
+            foreach (var faction in DataLoader.GetFactions())
+            {
+                faction.ImageTexture = content.Load<Texture2D>(faction.Image);
+                player2Factions.Add(faction);
+            }
+            player2Faction = player2Factions.First();
 
             base.LoadContent();
         }

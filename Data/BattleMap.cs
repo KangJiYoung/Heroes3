@@ -1,9 +1,20 @@
 ﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using System;
+using Heroes3.Managers;
 
 namespace Heroes3.Data
 {
-    public static class BattleMap
+    public class BattleMapTile
+    {
+        public int X { get; set; }
+
+        public int Y { get; set; }
+
+        public UnitData Unit { get; set; }
+    }
+
+    public class BattleMap
     {
         public static int
             TILE_SIZE = 45,
@@ -13,20 +24,25 @@ namespace Heroes3.Data
             TILE_X_OFFSET = 80,
             TILE_Y_OFFSET = 180;
 
-        private static bool[,] map;
+        private UnitData[,] map;
 
-        public static void Initialize(IList<Vector2> units)
+        public BattleMap(IList<BattleMapTile> units)
         {
-            map = new bool[ROWS, COLUMNS];
+            map = new UnitData[ROWS, COLUMNS];
 
             foreach (var unit in units)
-                map[(int)unit.X, (int)unit.Y] = true;
+                map[unit.X, unit.Y] = unit.Unit;
         }
 
-        public static void MoveUnit(Vector2 initialPosition, Vector2 finalPosition)
+        public UnitData GetUnitData(int x, int y) => map[x, y];
+
+        public void MoveUnit(Vector2 initialPosition, Vector2 finalPosition)
         {
-            map[(int)initialPosition.X, (int)initialPosition.Y] = false;
-            map[(int)finalPosition.X, (int)finalPosition.Y] = true;
+            if (initialPosition != finalPosition) // Attacking
+            {
+                map[(int)finalPosition.X, (int)finalPosition.Y] = map[(int)initialPosition.X, (int)initialPosition.Y];
+                map[(int)initialPosition.X, (int)initialPosition.Y] = null;
+            }
         }
 
         public static Vector2 GetTileLocation(int x, int y)
@@ -34,7 +50,21 @@ namespace Heroes3.Data
                 TILE_X_OFFSET + (TILE_SPACE * y) + (y * TILE_SIZE),
                 TILE_Y_OFFSET + (TILE_SPACE * x) + (x * TILE_SIZE));
 
-        public static UnitMapPath GetUnitMapPath(int x, int y, int speed)
+        public Rectangle GetTileRectangle(int x, int y)
+        {
+            var tileLocation = GetTileLocation(x, y);
+
+            return new Rectangle((int)tileLocation.X, (int)tileLocation.Y, TILE_SIZE, TILE_SIZE);
+        }
+
+        public System.Drawing.RectangleF GetTileRectangleAsFloat(int x, int y)
+        {
+            var tileLocation = GetTileLocation(x, y);
+
+            return new System.Drawing.RectangleF(tileLocation.X, tileLocation.Y, TILE_SIZE, TILE_SIZE);
+        }
+
+        public UnitMapPath GetUnitMapPath(int x, int y, int speed)
         {
             var start = new Vector2(x, y);
             var unitMapPath = new UnitMapPath
@@ -57,7 +87,7 @@ namespace Heroes3.Data
                         Vector2.Distance(next, start) <= speed &&
                         IsValidCoordinate(next.X, next.Y))
                     {
-                        if (map[(int)next.X, (int)next.Y])
+                        if (null != map[(int)next.X, (int)next.Y])
                             unitMapPath.AddEnemy(new Vector2(next.X, next.Y));
                         else
                         {
@@ -68,6 +98,23 @@ namespace Heroes3.Data
             }
 
             return unitMapPath;
+        }
+
+        public Vector2 GetUnitPositionOnBattle(UnitData unitData)
+        {
+            for (int i = 0; i < ROWS; i++)
+                for (int j = 0; j < COLUMNS; j++)
+                    if (ReferenceEquals(map[i, j], unitData))
+                        return new Vector2(i, j);
+
+            throw new Exception("This should never happen!");
+        }
+
+        public UnitMapPath GetUnitMapPath(UnitData unitData)
+        {
+            var unitPosition = GetUnitPositionOnBattle(unitData);
+
+            return GetUnitMapPath((int)unitPosition.X, (int)unitPosition.Y, map[(int)unitPosition.X, (int)unitPosition.Y].Speed);
         }
 
         private static IEnumerable<Vector2> GetNeighbours(float x, float y)
@@ -81,6 +128,33 @@ namespace Heroes3.Data
             yield return new Vector2(x + 1, y + 1); // Top Right
             yield return new Vector2(x - 1, y + 1); // Bottom Left
             yield return new Vector2(x + 1, y - 1); // Bottom Right*/
+        }
+
+        public static Vector2 GetAttackTile(Vector2 enemyTile)
+        {
+            switch (CursorManager.CurrentCursorType)
+            {
+                case CursorType.AttackFromBottom:
+                    return new Vector2(enemyTile.X + 1, enemyTile.Y);
+                case CursorType.AttackFromBottomLeft:
+                    return new Vector2(enemyTile.X + 1, enemyTile.Y - 1);
+                case CursorType.AttackFromBottomRight:
+                    return new Vector2(enemyTile.X + 1, enemyTile.Y + 1);
+                case CursorType.AttackFromTop:
+                    return new Vector2(enemyTile.X - 1, enemyTile.Y);
+                case CursorType.AttackFromTopLeft:
+                    return new Vector2(enemyTile.X - 1, enemyTile.Y - 1);
+                case CursorType.AttackFromTopRight:
+                    return new Vector2(enemyTile.X - 1, enemyTile.Y + 1);
+                case CursorType.AttackFromLeft:
+                    return new Vector2(enemyTile.X, enemyTile.Y - 1);
+                case CursorType.AttackFromRight:
+                    return new Vector2(enemyTile.X, enemyTile.Y + 1);
+                case CursorType.RangeAttack:
+                    return Vector2.Zero;
+                default:
+                    throw new Exception("This should never happer!");
+            }
         }
 
         private static bool IsValidCoordinate(float x, float y)

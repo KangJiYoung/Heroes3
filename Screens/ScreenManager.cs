@@ -48,7 +48,7 @@ namespace Heroes3.Screens
                 screensToUpdate.RemoveAt(screensToUpdate.Count - 1);
 
                 screen.Update(gameTime);
-                screen.HandleInput();
+                screen.HandleInput(gameTime);
             }
         }
 

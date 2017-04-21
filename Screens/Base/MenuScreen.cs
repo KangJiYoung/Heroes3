@@ -1,4 +1,5 @@
 ﻿using Heroes3.Managers;
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace Heroes3.Screens.Base
@@ -7,7 +8,7 @@ namespace Heroes3.Screens.Base
     {
         public IList<MenuEntry> MenuEntries { get; set; } = new List<MenuEntry>();
 
-        public override void HandleInput()
+        public override void HandleInput(GameTime gameTime)
         {
             if (InputManager.IsMouseClick())
             {
