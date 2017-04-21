@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Heroes3.Data;
+﻿using Heroes3.Data;
 using Heroes3.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -20,12 +19,12 @@ namespace Heroes3.Drawable
         private const int
             HIGHLIGHT_ANIMATION_SPEED = 40,
             HIGHLIGHT_ANIMATION_ALPHA_INCREASE = 10;
-        private int highlightAnimationRemaining = HIGHLIGHT_ANIMATION_SPEED;
+        private int highlightAnimationRemaining = 0;
 
         private const int
             MOVING_ANIMATION_SPEED = 40;
         private int
-            movingAnimationRemaining = MOVING_ANIMATION_SPEED;
+            movingAnimationRemaining = 0;
 
         private bool isReverted;
 
@@ -90,44 +89,81 @@ namespace Heroes3.Drawable
 
         private void HandleUnitWaitingForAction(GameTime gameTime)
         {
-            highlightAnimationRemaining -= gameTime.ElapsedGameTime.Milliseconds;
-            if (highlightAnimationRemaining < 0)
+            highlightAnimationRemaining += gameTime.ElapsedGameTime.Milliseconds;
+            if (highlightAnimationRemaining > HIGHLIGHT_ANIMATION_SPEED)
             {
-                highlightAnimationRemaining = HIGHLIGHT_ANIMATION_SPEED;
+                highlightAnimationRemaining -= HIGHLIGHT_ANIMATION_SPEED;
                 spriteColor.A += HIGHLIGHT_ANIMATION_ALPHA_INCREASE;
             }
 
             if (InputManager.IsMouseClick())
             {
                 var mousePosition = InputManager.GetCurrentMousePosition();
+
                 foreach (var move in unitMapPath.FreeTiles)
                 {
-                    var tileLocation = BattleMap.GetTileLocation((int)move.X, (int)move.Y);
-                    var tileRectangle = new Rectangle((int)tileLocation.X, (int)tileLocation.Y, BattleMap.TILE_SIZE, BattleMap.TILE_SIZE);
+                    var tileRectangle = GetTileRectangle(move);
+
                     if (mousePosition.Intersects(tileRectangle))
-                    {
-                        spriteColor.A = 255;
-                        UnitStatus = UnitStatus.Moving;
-                        ShowUnitMapPath = false;
-                        CursorManager.CurrentCursorType = CursorType.Normal;
-                        unitMapPath.GeneratePath(new Vector2(X, Y), move);
-                        BattleMap.MoveUnit(new Vector2(X, Y), move);
-                    }
+                        TriggerUnitToMove(move);
                 }
             }
 
             foreach (var freeTile in unitMapPath.FreeTiles)
             {
-                var tileLocation = BattleMap.GetTileLocation((int)freeTile.X, (int)freeTile.Y);
-                var tileRectangle = new Rectangle((int)tileLocation.X, (int)tileLocation.Y, BattleMap.TILE_SIZE, BattleMap.TILE_SIZE);
+                var tileRectangle = GetTileRectangle(freeTile);
 
                 if (InputManager.HasEntered(tileRectangle))
                 {
                     CursorManager.CurrentCursorType = CursorType.Move;
                     break;
                 }
+                else if (InputManager.HasLeaved(tileRectangle))
+                {
+                    CursorManager.CurrentCursorType = CursorType.Normal;
+                    break;
+                }
+            }
 
-                if (InputManager.HasLeaved(tileRectangle))
+            foreach (var enemyTile in unitMapPath.Enemies)
+            {
+                var mousePosition = InputManager.GetCurrentMousePosition();
+                var tileRectangle = GetTileRectangle(enemyTile);
+
+                if (mousePosition.Intersects(tileRectangle))
+                {
+                    var tileXOffset = (mousePosition.X - tileRectangle.X) / 15;
+                    var tileYOffset = (mousePosition.Y - tileRectangle.Y) / 15;
+
+                    if (tileXOffset == 0 && tileYOffset == 0)
+                        CursorManager.CurrentCursorType = CursorType.AttackFromTopLeft;
+                    else if (tileXOffset == 1 && tileYOffset == 0)
+                        CursorManager.CurrentCursorType = CursorType.AttackFromTop;
+                    else if (tileXOffset == 2 && tileYOffset == 0)
+                        CursorManager.CurrentCursorType = CursorType.AttackFromTopRight;
+
+                    else if (tileXOffset == 0 && tileYOffset == 1)
+                        CursorManager.CurrentCursorType = CursorType.AttackFromLeft;
+                    else if (tileXOffset == 2 && tileYOffset == 1)
+                        CursorManager.CurrentCursorType = CursorType.AttackFromRight;
+
+                    else if (tileXOffset == 0 && tileYOffset == 2)
+                        CursorManager.CurrentCursorType = CursorType.AttackFromBottomLeft;
+                    else if (tileXOffset == 1 && tileYOffset == 2)
+                        CursorManager.CurrentCursorType = CursorType.AttackFromBottom;
+                    else if (tileXOffset == 2 && tileYOffset == 2)
+                        CursorManager.CurrentCursorType = CursorType.AttackFromBottomRight;
+
+                    if (InputManager.IsMouseClick())
+                    {
+                        var attackTile = GetAttackTile(enemyTile);
+                        if (unitMapPath.FreeTiles.Contains(attackTile))
+                            TriggerUnitToMove(attackTile);
+                    }
+
+                    break;
+                }
+                else if (InputManager.HasLeaved(tileRectangle))
                 {
                     CursorManager.CurrentCursorType = CursorType.Normal;
                     break;
@@ -135,12 +171,56 @@ namespace Heroes3.Drawable
             }
         }
 
+        private void TriggerUnitToMove(Vector2 move)
+        {
+            spriteColor.A = 255;
+            UnitStatus = UnitStatus.Moving;
+            ShowUnitMapPath = false;
+            CursorManager.CurrentCursorType = CursorType.Normal;
+            unitMapPath.GeneratePath(new Vector2(X, Y), move);
+            BattleMap.MoveUnit(new Vector2(X, Y), move);
+        }
+
+        private static Vector2 GetAttackTile(Vector2 enemyTile)
+        {
+            switch (CursorManager.CurrentCursorType)
+            {
+                case CursorType.AttackFromBottom:
+                    return new Vector2(enemyTile.X + 1, enemyTile.Y);
+                case CursorType.AttackFromBottomLeft:
+                    return new Vector2(enemyTile.X + 1, enemyTile.Y - 1);
+                case CursorType.AttackFromBottomRight:
+                    return new Vector2(enemyTile.X + 1, enemyTile.Y + 1);
+                case CursorType.AttackFromTop:
+                    return new Vector2(enemyTile.X - 1, enemyTile.Y);
+                case CursorType.AttackFromTopLeft:
+                    return new Vector2(enemyTile.X - 1, enemyTile.Y - 1);
+                case CursorType.AttackFromTopRight:
+                    return new Vector2(enemyTile.X - 1, enemyTile.Y + 1);
+                case CursorType.AttackFromLeft:
+                    return new Vector2(enemyTile.X, enemyTile.Y - 1);
+                case CursorType.AttackFromRight:
+                    return new Vector2(enemyTile.X, enemyTile.Y + 1);
+                case CursorType.RangeAttack:
+                    return Vector2.Zero;
+                default:
+                    throw new Exception("This should never happer!");
+            }
+        }
+
+        private static Rectangle GetTileRectangle(Vector2 move)
+        {
+            var tileLocation = BattleMap.GetTileLocation((int)move.X, (int)move.Y);
+            var tileRectangle = new Rectangle((int)tileLocation.X, (int)tileLocation.Y, BattleMap.TILE_SIZE, BattleMap.TILE_SIZE);
+            return tileRectangle;
+        }
+
         private void HandleUnitMoving(GameTime gameTime)
         {
-            movingAnimationRemaining -= gameTime.ElapsedGameTime.Milliseconds;
-            if (movingAnimationRemaining < 0)
+            movingAnimationRemaining += gameTime.ElapsedGameTime.Milliseconds;
+            if (movingAnimationRemaining > MOVING_ANIMATION_SPEED)
             {
-                movingAnimationRemaining = MOVING_ANIMATION_SPEED;
+                movingAnimationRemaining -= MOVING_ANIMATION_SPEED;
                 currentSpriteRectangle = UnitData.UnitAnimation.GetNextAnimation(AnimationType.Move);
 
                 var currentPath = unitMapPath.GetCurrentPath();
@@ -189,7 +269,11 @@ namespace Heroes3.Drawable
                 0,
                 Vector2.Zero,
                 1,
-                isReverted ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+                isReverted ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
+                0);
+
+            //DEBUG
+            spriteBatch.DrawString(Fonts.MainFont, CursorManager.CurrentCursorType.ToString(), Vector2.Zero, Color.Red);
 
             spriteBatch.End();
         }
