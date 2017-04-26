@@ -9,7 +9,7 @@ namespace Heroes3.Drawable
     public class Unit
     {
         public Color SpriteColor;
-
+        public bool IsReverted { get; set; }
         public UnitData UnitData { get; set; }
         public UnitStatus UnitStatus { get; set; }
         public System.Drawing.RectangleF LocationRectangle { get; set; }
@@ -17,6 +17,7 @@ namespace Heroes3.Drawable
 
         public event EventHandler<EventArgs>
             OnMoveFinished,
+            OnAttackFinished,
             OnMouseEnter,
             OnMouseLeave;
 
@@ -26,18 +27,11 @@ namespace Heroes3.Drawable
         private int highlightAnimationRemaining = 0;
 
         private const int
-            MOVING_ANIMATION_SPEED = 40;
+            ACTION_ANIMATION_SPEED = 50;
         private int
-            movingAnimationRemaining = 0;
-
-        private bool isReverted;
+            actionAnimationRemaining = 0;
 
         private Rectangle currentSpriteRectangle;
-
-        public Unit(bool isReverted)
-        {
-            this.isReverted = isReverted;
-        }
 
         public void Initialize()
         {
@@ -58,6 +52,9 @@ namespace Heroes3.Drawable
                     break;
                 case UnitStatus.Moving:
                     HandleUnitMoving(gameTime);
+                    break;
+                case UnitStatus.Attacking:
+                    HandleUnitAttacking(gameTime);
                     break;
                 default:
                     throw new Exception("This should never happen!");
@@ -87,10 +84,10 @@ namespace Heroes3.Drawable
 
         private void HandleUnitMoving(GameTime gameTime)
         {
-            movingAnimationRemaining += gameTime.ElapsedGameTime.Milliseconds;
-            if (movingAnimationRemaining > MOVING_ANIMATION_SPEED)
+            actionAnimationRemaining += gameTime.ElapsedGameTime.Milliseconds;
+            if (actionAnimationRemaining > ACTION_ANIMATION_SPEED)
             {
-                movingAnimationRemaining -= MOVING_ANIMATION_SPEED;
+                actionAnimationRemaining -= ACTION_ANIMATION_SPEED;
                 currentSpriteRectangle = UnitData.UnitAnimation.GetNextAnimation(AnimationType.Move);
 
                 var currentPath = UnitMapPath.GetCurrentPath();
@@ -122,6 +119,22 @@ namespace Heroes3.Drawable
             }
         }
 
+        private void HandleUnitAttacking(GameTime gameTime)
+        {
+            actionAnimationRemaining += gameTime.ElapsedGameTime.Milliseconds;
+            if (actionAnimationRemaining > ACTION_ANIMATION_SPEED)
+            {
+                actionAnimationRemaining -= ACTION_ANIMATION_SPEED;
+                currentSpriteRectangle = UnitData.UnitAnimation.GetNextAnimation(AnimationType.Attack, true);
+
+                if (currentSpriteRectangle == Rectangle.Empty)
+                {
+                    currentSpriteRectangle = UnitData.UnitAnimation.Animations[AnimationType.Move][0];
+                    OnAttackFinished?.Invoke(this, EventArgs.Empty);
+                }
+            }
+        }
+
         #endregion
 
         public void Draw(SpriteBatch spriteBatch)
@@ -134,11 +147,8 @@ namespace Heroes3.Drawable
                 0,
                 Vector2.Zero,
                 1,
-                isReverted ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
+                IsReverted ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
                 0);
-
-            //DEBUG
-            spriteBatch.DrawString(Fonts.MainFont, CursorManager.CurrentCursorType.ToString(), Vector2.Zero, Color.Red);
         }
     }
 }

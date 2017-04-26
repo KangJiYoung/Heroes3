@@ -13,6 +13,7 @@
       "IsFlying": false,
       "MinimumDamage": 2,
       "MaximumDamage": 3,
+      "StackSize":  100,
       "AnimationPath": "Animations/Castle/HalbedierAnimation",
       "AnimationDescriptionPath": "Content/Animations/Castle/HalbedierAnimation.xml"
     },
@@ -25,7 +26,8 @@
       "IsRange": true,
       "IsFlying": false,
       "MinimumDamage": 2,
-      "MaximumDamage": 3
+      "MaximumDamage": 3,
+      "StackSize": 100
     },
     {
       "Name": "Royal Griffin",
@@ -36,7 +38,8 @@
       "IsRange": false,
       "IsFlying": true,
       "MinimumDamage": 3,
-      "MaximumDamage": 6
+      "MaximumDamage": 6,
+      "StackSize": 100
     },
     {
       "Name": "Crusader",
@@ -47,7 +50,8 @@
       "IsRange": false,
       "IsFlying": false,
       "MinimumDamage": 7,
-      "MaximumDamage": 10
+      "MaximumDamage": 10,
+      "StackSize": 100
     },
     {
       "Name": "Zealot",
@@ -58,7 +62,8 @@
       "IsRange": true,
       "IsFlying": false,
       "MinimumDamage": 10,
-      "MaximumDamage": 12
+      "MaximumDamage": 12,
+      "StackSize": 100
     },
     {
       "Name": "Champion",
@@ -69,7 +74,8 @@
       "IsRange": false,
       "IsFlying": false,
       "MinimumDamage": 20,
-      "MaximumDamage": 25
+      "MaximumDamage": 25,
+      "StackSize": 100
     },
     {
       "Name": "Archangel",
@@ -80,7 +86,8 @@
       "IsRange": false,
       "IsFlying": true,
       "MinimumDamage": 50,
-      "MaximumDamage": 50
+      "MaximumDamage": 50,
+      "StackSize": 100
     }
   ]
 }

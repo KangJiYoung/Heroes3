@@ -4,6 +4,78 @@
   <Texture Path="Halbedier.png" Name="Halbedier.png" />
   <TransparentColors />
   <Sprites>
+    <Sprite Name="Sprite0" Id="0">
+      <Coordinates>
+        <X>18</X>
+        <Y>14</Y>
+        <Width>45</Width>
+        <Height>101</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite1" Id="1">
+      <Coordinates>
+        <X>75</X>
+        <Y>13</Y>
+        <Width>45</Width>
+        <Height>102</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite2" Id="2">
+      <Coordinates>
+        <X>131</X>
+        <Y>13</Y>
+        <Width>45</Width>
+        <Height>102</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite3" Id="3">
+      <Coordinates>
+        <X>186</X>
+        <Y>13</Y>
+        <Width>45</Width>
+        <Height>102</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite4" Id="4">
+      <Coordinates>
+        <X>240</X>
+        <Y>13</Y>
+        <Width>46</Width>
+        <Height>102</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite5" Id="5">
+      <Coordinates>
+        <X>298</X>
+        <Y>12</Y>
+        <Width>50</Width>
+        <Height>104</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite6" Id="6">
+      <Coordinates>
+        <X>358</X>
+        <Y>7</Y>
+        <Width>57</Width>
+        <Height>108</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite7" Id="7">
+      <Coordinates>
+        <X>426</X>
+        <Y>6</Y>
+        <Width>54</Width>
+        <Height>109</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite8" Id="8">
+      <Coordinates>
+        <X>491</X>
+        <Y>11</Y>
+        <Width>50</Width>
+        <Height>104</Height>
+      </Coordinates>
+    </Sprite>
     <Sprite Name="Sprite9" Id="9">
       <Coordinates>
         <X>600</X>
@@ -52,6 +124,990 @@
         <Height>103</Height>
       </Coordinates>
     </Sprite>
+    <Sprite Name="Sprite15" Id="15">
+      <Coordinates>
+        <X>16</X>
+        <Y>281</Y>
+        <Width>32</Width>
+        <Height>98</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite16" Id="16">
+      <Coordinates>
+        <X>16</X>
+        <Y>407</Y>
+        <Width>58</Width>
+        <Height>88</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite17" Id="17">
+      <Coordinates>
+        <X>18</X>
+        <Y>144</Y>
+        <Width>33</Width>
+        <Height>101</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite18" Id="18">
+      <Coordinates>
+        <X>67</X>
+        <Y>287</Y>
+        <Width>34</Width>
+        <Height>93</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite19" Id="19">
+      <Coordinates>
+        <X>71</X>
+        <Y>155</Y>
+        <Width>79</Width>
+        <Height>90</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite20" Id="20">
+      <Coordinates>
+        <X>81</X>
+        <Y>525</Y>
+        <Width>56</Width>
+        <Height>57</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite21" Id="21">
+      <Coordinates>
+        <X>85</X>
+        <Y>416</Y>
+        <Width>56</Width>
+        <Height>81</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite22" Id="22">
+      <Coordinates>
+        <X>117</X>
+        <Y>271</Y>
+        <Width>37</Width>
+        <Height>109</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite23" Id="23">
+      <Coordinates>
+        <X>142</X>
+        <Y>534</Y>
+        <Width>59</Width>
+        <Height>47</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite24" Id="24">
+      <Coordinates>
+        <X>150</X>
+        <Y>420</Y>
+        <Width>39</Width>
+        <Height>77</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite25" Id="25">
+      <Coordinates>
+        <X>159</X>
+        <Y>518</Y>
+        <Width>16</Width>
+        <Height>24</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite26" Id="26">
+      <Coordinates>
+        <X>166</X>
+        <Y>156</Y>
+        <Width>100</Width>
+        <Height>89</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite27" Id="27">
+      <Coordinates>
+        <X>171</X>
+        <Y>313</Y>
+        <Width>93</Width>
+        <Height>67</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite28" Id="28">
+      <Coordinates>
+        <X>204</X>
+        <Y>412</Y>
+        <Width>42</Width>
+        <Height>86</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite29" Id="29">
+      <Coordinates>
+        <X>212</X>
+        <Y>520</Y>
+        <Width>53</Width>
+        <Height>61</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite30" Id="30">
+      <Coordinates>
+        <X>263</X>
+        <Y>430</Y>
+        <Width>87</Width>
+        <Height>68</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite31" Id="31">
+      <Coordinates>
+        <X>278</X>
+        <Y>313</Y>
+        <Width>91</Width>
+        <Height>67</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite32" Id="32">
+      <Coordinates>
+        <X>282</X>
+        <Y>518</Y>
+        <Width>46</Width>
+        <Height>64</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite33" Id="33">
+      <Coordinates>
+        <X>285</X>
+        <Y>140</Y>
+        <Width>69</Width>
+        <Height>105</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite34" Id="34">
+      <Coordinates>
+        <X>364</X>
+        <Y>437</Y>
+        <Width>72</Width>
+        <Height>65</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite35" Id="35">
+      <Coordinates>
+        <X>372</X>
+        <Y>164</Y>
+        <Width>65</Width>
+        <Height>81</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite36" Id="36">
+      <Coordinates>
+        <X>375</X>
+        <Y>307</Y>
+        <Width>81</Width>
+        <Height>73</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite37" Id="37">
+      <Coordinates>
+        <X>428</X>
+        <Y>520</Y>
+        <Width>58</Width>
+        <Height>64</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite38" Id="38">
+      <Coordinates>
+        <X>448</X>
+        <Y>434</Y>
+        <Width>84</Width>
+        <Height>64</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite39" Id="39">
+      <Coordinates>
+        <X>450</X>
+        <Y>174</Y>
+        <Width>62</Width>
+        <Height>71</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite40" Id="40">
+      <Coordinates>
+        <X>504</X>
+        <Y>519</Y>
+        <Width>36</Width>
+        <Height>32</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite41" Id="41">
+      <Coordinates>
+        <X>542</X>
+        <Y>539</Y>
+        <Width>7</Width>
+        <Height>7</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite42" Id="42">
+      <Coordinates>
+        <X>551</X>
+        <Y>536</Y>
+        <Width>2</Width>
+        <Height>10</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite43" Id="43">
+      <Coordinates>
+        <X>555</X>
+        <Y>536</Y>
+        <Width>7</Width>
+        <Height>10</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite44" Id="44">
+      <Coordinates>
+        <X>564</X>
+        <Y>539</Y>
+        <Width>7</Width>
+        <Height>7</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite45" Id="45">
+      <Coordinates>
+        <X>573</X>
+        <Y>539</Y>
+        <Width>5</Width>
+        <Height>7</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite46" Id="46">
+      <Coordinates>
+        <X>579</X>
+        <Y>131</Y>
+        <Width>46</Width>
+        <Height>99</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite47" Id="47">
+      <Coordinates>
+        <X>579</X>
+        <Y>536</Y>
+        <Width>7</Width>
+        <Height>10</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite48" Id="48">
+      <Coordinates>
+        <X>588</X>
+        <Y>539</Y>
+        <Width>2</Width>
+        <Height>7</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite49" Id="49">
+      <Coordinates>
+        <X>592</X>
+        <Y>539</Y>
+        <Width>7</Width>
+        <Height>7</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite50" Id="50">
+      <Coordinates>
+        <X>601</X>
+        <Y>539</Y>
+        <Width>5</Width>
+        <Height>7</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite51" Id="51">
+      <Coordinates>
+        <X>618</X>
+        <Y>243</Y>
+        <Width>39</Width>
+        <Height>98</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite52" Id="52">
+      <Coordinates>
+        <X>620</X>
+        <Y>364</Y>
+        <Width>61</Width>
+        <Height>66</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite53" Id="53">
+      <Coordinates>
+        <X>647</X>
+        <Y>137</Y>
+        <Width>50</Width>
+        <Height>93</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite54" Id="54">
+      <Coordinates>
+        <X>678</X>
+        <Y>247</Y>
+        <Width>39</Width>
+        <Height>94</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite55" Id="55">
+      <Coordinates>
+        <X>695</X>
+        <Y>389</Y>
+        <Width>59</Width>
+        <Height>37</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite56" Id="56">
+      <Coordinates>
+        <X>707</X>
+        <Y>143</Y>
+        <Width>61</Width>
+        <Height>88</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite57" Id="57">
+      <Coordinates>
+        <X>732</X>
+        <Y>250</Y>
+        <Width>49</Width>
+        <Height>90</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite58" Id="58">
+      <Coordinates>
+        <X>766</X>
+        <Y>404</Y>
+        <Width>37</Width>
+        <Height>25</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite59" Id="59">
+      <Coordinates>
+        <X>778</X>
+        <Y>152</Y>
+        <Width>70</Width>
+        <Height>80</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite60" Id="60">
+      <Coordinates>
+        <X>791</X>
+        <Y>253</Y>
+        <Width>58</Width>
+        <Height>89</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite61" Id="61">
+      <Coordinates>
+        <X>817</X>
+        <Y>536</Y>
+        <Width>124</Width>
+        <Height>10</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite62" Id="62">
+      <Coordinates>
+        <X>817</X>
+        <Y>534</Y>
+        <Width>8</Width>
+        <Height>9</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite63" Id="63">
+      <Coordinates>
+        <X>857</X>
+        <Y>255</Y>
+        <Width>62</Width>
+        <Height>89</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite64" Id="64">
+      <Coordinates>
+        <X>863</X>
+        <Y>534</Y>
+        <Width>8</Width>
+        <Height>9</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite65" Id="65">
+      <Coordinates>
+        <X>866</X>
+        <Y>163</Y>
+        <Width>76</Width>
+        <Height>72</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite66" Id="66">
+      <Coordinates>
+        <X>877</X>
+        <Y>516</Y>
+        <Width>7</Width>
+        <Height>9</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite67" Id="67">
+      <Coordinates>
+        <X>885</X>
+        <Y>518</Y>
+        <Width>1</Width>
+        <Height>7</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite68" Id="68">
+      <Coordinates>
+        <X>888</X>
+        <Y>518</Y>
+        <Width>6</Width>
+        <Height>10</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite69" Id="69">
+      <Coordinates>
+        <X>895</X>
+        <Y>533</Y>
+        <Width>7</Width>
+        <Height>10</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite70" Id="70">
+      <Coordinates>
+        <X>896</X>
+        <Y>518</Y>
+        <Width>6</Width>
+        <Height>10</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite71" Id="71">
+      <Coordinates>
+        <X>898</X>
+        <Y>379</Y>
+        <Width>43</Width>
+        <Height>104</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite72" Id="72">
+      <Coordinates>
+        <X>904</X>
+        <Y>519</Y>
+        <Width>6</Width>
+        <Height>6</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite73" Id="73">
+      <Coordinates>
+        <X>908</X>
+        <Y>533</Y>
+        <Width>2</Width>
+        <Height>10</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite74" Id="74">
+      <Coordinates>
+        <X>912</X>
+        <Y>515</Y>
+        <Width>6</Width>
+        <Height>10</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite75" Id="75">
+      <Coordinates>
+        <X>920</X>
+        <Y>534</Y>
+        <Width>5</Width>
+        <Height>9</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite76" Id="76">
+      <Coordinates>
+        <X>925</X>
+        <Y>515</Y>
+        <Width>6</Width>
+        <Height>10</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite77" Id="77">
+      <Coordinates>
+        <X>929</X>
+        <Y>254</Y>
+        <Width>65</Width>
+        <Height>90</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite78" Id="78">
+      <Coordinates>
+        <X>945</X>
+        <Y>495</Y>
+        <Width>49</Width>
+        <Height>100</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite79" Id="79">
+      <Coordinates>
+        <X>949</X>
+        <Y>379</Y>
+        <Width>36</Width>
+        <Height>104</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite80" Id="80">
+      <Coordinates>
+        <X>503</X>
+        <Y>553</Y>
+        <Width>7</Width>
+        <Height>9</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite81" Id="81">
+      <Coordinates>
+        <X>512</X>
+        <Y>556</Y>
+        <Width>6</Width>
+        <Height>6</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite82" Id="82">
+      <Coordinates>
+        <X>520</X>
+        <Y>555</Y>
+        <Width>4</Width>
+        <Height>7</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite83" Id="83">
+      <Coordinates>
+        <X>533</X>
+        <Y>556</Y>
+        <Width>6</Width>
+        <Height>6</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite84" Id="84">
+      <Coordinates>
+        <X>561</X>
+        <Y>553</Y>
+        <Width>4</Width>
+        <Height>9</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite85" Id="85">
+      <Coordinates>
+        <X>571</X>
+        <Y>553</Y>
+        <Width>9</Width>
+        <Height>9</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite86" Id="86">
+      <Coordinates>
+        <X>582</X>
+        <Y>555</Y>
+        <Width>1</Width>
+        <Height>7</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite87" Id="87">
+      <Coordinates>
+        <X>585</X>
+        <Y>555</Y>
+        <Width>6</Width>
+        <Height>10</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite88" Id="88">
+      <Coordinates>
+        <X>593</X>
+        <Y>552</Y>
+        <Width>6</Width>
+        <Height>10</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite89" Id="89">
+      <Coordinates>
+        <X>601</X>
+        <Y>553</Y>
+        <Width>4</Width>
+        <Height>9</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite90" Id="90">
+      <Coordinates>
+        <X>612</X>
+        <Y>556</Y>
+        <Width>6</Width>
+        <Height>6</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite91" Id="91">
+      <Coordinates>
+        <X>620</X>
+        <Y>555</Y>
+        <Width>6</Width>
+        <Height>7</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite92" Id="92">
+      <Coordinates>
+        <X>628</X>
+        <Y>552</Y>
+        <Width>6</Width>
+        <Height>10</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite93" Id="93">
+      <Coordinates>
+        <X>641</X>
+        <Y>553</Y>
+        <Width>9</Width>
+        <Height>9</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite94" Id="94">
+      <Coordinates>
+        <X>652</X>
+        <Y>556</Y>
+        <Width>6</Width>
+        <Height>6</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite95" Id="95">
+      <Coordinates>
+        <X>660</X>
+        <Y>555</Y>
+        <Width>6</Width>
+        <Height>10</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite96" Id="96">
+      <Coordinates>
+        <X>668</X>
+        <Y>555</Y>
+        <Width>1</Width>
+        <Height>7</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite97" Id="97">
+      <Coordinates>
+        <X>684</X>
+        <Y>553</Y>
+        <Width>3</Width>
+        <Height>9</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite98" Id="98">
+      <Coordinates>
+        <X>689</X>
+        <Y>553</Y>
+        <Width>3</Width>
+        <Height>9</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite99" Id="99">
+      <Coordinates>
+        <X>694</X>
+        <Y>553</Y>
+        <Width>3</Width>
+        <Height>9</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite100" Id="100">
+      <Coordinates>
+        <X>812</X>
+        <Y>549</Y>
+        <Width>1</Width>
+        <Height>10</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite101" Id="101">
+      <Coordinates>
+        <X>815</X>
+        <Y>552</Y>
+        <Width>1</Width>
+        <Height>7</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite102" Id="102">
+      <Coordinates>
+        <X>818</X>
+        <Y>549</Y>
+        <Width>6</Width>
+        <Height>10</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite103" Id="103">
+      <Coordinates>
+        <X>847</X>
+        <Y>552</Y>
+        <Width>4</Width>
+        <Height>7</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite104" Id="104">
+      <Coordinates>
+        <X>852</X>
+        <Y>552</Y>
+        <Width>6</Width>
+        <Height>7</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite105" Id="105">
+      <Coordinates>
+        <X>852</X>
+        <Y>552</Y>
+        <Width>1</Width>
+        <Height>6</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite106" Id="106">
+      <Coordinates>
+        <X>870</X>
+        <Y>552</Y>
+        <Width>8</Width>
+        <Height>7</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite107" Id="107">
+      <Coordinates>
+        <X>880</X>
+        <Y>552</Y>
+        <Width>6</Width>
+        <Height>10</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite108" Id="108">
+      <Coordinates>
+        <X>888</X>
+        <Y>552</Y>
+        <Width>9</Width>
+        <Height>7</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite109" Id="109">
+      <Coordinates>
+        <X>899</X>
+        <Y>553</Y>
+        <Width>6</Width>
+        <Height>6</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite110" Id="110">
+      <Coordinates>
+        <X>907</X>
+        <Y>552</Y>
+        <Width>1</Width>
+        <Height>7</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite111" Id="111">
+      <Coordinates>
+        <X>910</X>
+        <Y>549</Y>
+        <Width>1</Width>
+        <Height>10</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite112" Id="112">
+      <Coordinates>
+        <X>934</X>
+        <Y>552</Y>
+        <Width>9</Width>
+        <Height>7</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite113" Id="113">
+      <Coordinates>
+        <X>503</X>
+        <Y>569</Y>
+        <Width>6</Width>
+        <Height>9</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite114" Id="114">
+      <Coordinates>
+        <X>553</X>
+        <Y>571</Y>
+        <Width>9</Width>
+        <Height>7</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite115" Id="115">
+      <Coordinates>
+        <X>564</X>
+        <Y>571</Y>
+        <Width>6</Width>
+        <Height>10</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite116" Id="116">
+      <Coordinates>
+        <X>572</X>
+        <Y>571</Y>
+        <Width>6</Width>
+        <Height>7</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite117" Id="117">
+      <Coordinates>
+        <X>572</X>
+        <Y>571</Y>
+        <Width>1</Width>
+        <Height>6</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite118" Id="118">
+      <Coordinates>
+        <X>580</X>
+        <Y>569</Y>
+        <Width>4</Width>
+        <Height>9</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite119" Id="119">
+      <Coordinates>
+        <X>586</X>
+        <Y>572</Y>
+        <Width>6</Width>
+        <Height>6</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite120" Id="120">
+      <Coordinates>
+        <X>594</X>
+        <Y>571</Y>
+        <Width>4</Width>
+        <Height>7</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite121" Id="121">
+      <Coordinates>
+        <X>617</X>
+        <Y>569</Y>
+        <Width>5</Width>
+        <Height>9</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite122" Id="122">
+      <Coordinates>
+        <X>624</X>
+        <Y>570</Y>
+        <Width>6</Width>
+        <Height>8</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite123" Id="123">
+      <Coordinates>
+        <X>632</X>
+        <Y>570</Y>
+        <Width>6</Width>
+        <Height>8</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite124" Id="124">
+      <Coordinates>
+        <X>640</X>
+        <Y>570</Y>
+        <Width>6</Width>
+        <Height>8</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite125" Id="125">
+      <Coordinates>
+        <X>818</X>
+        <Y>568</Y>
+        <Width>6</Width>
+        <Height>10</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite126" Id="126">
+      <Coordinates>
+        <X>826</X>
+        <Y>565</Y>
+        <Width>1</Width>
+        <Height>10</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite127" Id="127">
+      <Coordinates>
+        <X>829</X>
+        <Y>569</Y>
+        <Width>6</Width>
+        <Height>6</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite128" Id="128">
+      <Coordinates>
+        <X>837</X>
+        <Y>569</Y>
+        <Width>6</Width>
+        <Height>6</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite129" Id="129">
+      <Coordinates>
+        <X>852</X>
+        <Y>569</Y>
+        <Width>6</Width>
+        <Height>6</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite130" Id="130">
+      <Coordinates>
+        <X>865</X>
+        <Y>568</Y>
+        <Width>6</Width>
+        <Height>10</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite131" Id="131">
+      <Coordinates>
+        <X>873</X>
+        <Y>568</Y>
+        <Width>1</Width>
+        <Height>7</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite132" Id="132">
+      <Coordinates>
+        <X>884</X>
+        <Y>569</Y>
+        <Width>6</Width>
+        <Height>6</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite133" Id="133">
+      <Coordinates>
+        <X>905</X>
+        <Y>568</Y>
+        <Width>4</Width>
+        <Height>7</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite134" Id="134">
+      <Coordinates>
+        <X>910</X>
+        <Y>569</Y>
+        <Width>6</Width>
+        <Height>6</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite135" Id="135">
+      <Coordinates>
+        <X>918</X>
+        <Y>565</Y>
+        <Width>6</Width>
+        <Height>10</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite136" Id="136">
+      <Coordinates>
+        <X>926</X>
+        <Y>568</Y>
+        <Width>1</Width>
+        <Height>7</Height>
+      </Coordinates>
+    </Sprite>
+    <Sprite Name="Sprite137" Id="137">
+      <Coordinates>
+        <X>929</X>
+        <Y>566</Y>
+        <Width>4</Width>
+        <Height>9</Height>
+      </Coordinates>
+    </Sprite>
   </Sprites>
   <Animations>
     <Animation Name="Move" FrameRate="20" Loop="True" PingPong="False">
@@ -62,6 +1118,16 @@
         <Frame SpriteId="12" OriginX="25.5" OriginY="50" OffSetX="0" OffSetY="0" Duration="0.05" />
         <Frame SpriteId="13" OriginX="25" OriginY="50.5" OffSetX="0" OffSetY="0" Duration="0.05" />
         <Frame SpriteId="14" OriginX="22" OriginY="51.5" OffSetX="0" OffSetY="0" Duration="0.05" />
+      </Frames>
+    </Animation>
+    <Animation Name="Attack" FrameRate="20" Loop="True" PingPong="False">
+      <Frames>
+        <Frame SpriteId="15" OriginX="16" OriginY="49" OffSetX="0" OffSetY="0" Duration="0.05" />
+        <Frame SpriteId="18" OriginX="17" OriginY="46.5" OffSetX="0" OffSetY="0" Duration="0.05" />
+        <Frame SpriteId="22" OriginX="18.5" OriginY="54.5" OffSetX="0" OffSetY="0" Duration="0.05" />
+        <Frame SpriteId="27" OriginX="46.5" OriginY="33.5" OffSetX="0" OffSetY="0" Duration="0.05" />
+        <Frame SpriteId="31" OriginX="45.5" OriginY="33.5" OffSetX="0" OffSetY="0" Duration="0.05" />
+        <Frame SpriteId="36" OriginX="40.5" OriginY="36.5" OffSetX="0" OffSetY="0" Duration="0.05" />
       </Frames>
     </Animation>
   </Animations>

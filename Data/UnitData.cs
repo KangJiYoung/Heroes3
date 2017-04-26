@@ -6,7 +6,8 @@ namespace Heroes3.Data
     {
         Waiting,
         WaitingForAction,
-        Moving
+        Moving,
+        Attacking
     }
 
     public class UnitData
@@ -19,6 +20,8 @@ namespace Heroes3.Data
 
         public int MinimumDamage { get; set; }
         public int MaximumDamage { get; set; }
+
+        public int StackSize { get; set; }
 
         public bool IsRange { get; set; }
         public bool IsFlying { get; set; }

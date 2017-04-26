@@ -4,7 +4,6 @@ using Heroes3.Managers;
 using Heroes3.Screens.Base;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,7 +13,7 @@ namespace Heroes3.Screens.Game
     {
         private Queue<Unit> unitActionOrder = new Queue<Unit>();
         private Faction player1Faction, player2Faction;
-        private Texture2D battleBackgorund;
+        private Texture2D battleBackgorund, stackSizeTexture;
         private BattleMap battleMap;
         private TileManager tileManager;
 
@@ -32,6 +31,7 @@ namespace Heroes3.Screens.Game
             var content = ScreenManager.Game.Content;
 
             battleBackgorund = content.Load<Texture2D>("Images/Game/Battle/BattleBackground");
+            stackSizeTexture = content.Load<Texture2D>("Images/Game/Battle/StackSizeBackground");
 
             player1Faction.LoadContent(content);
             player2Faction.LoadContent(content);
@@ -52,10 +52,10 @@ namespace Heroes3.Screens.Game
                 }
             });
 
-            var player1Unit = new Unit(false) { LocationRectangle = battleMap.GetTileRectangleAsFloat(0, 0), UnitData = player1Faction.Units[0] };
+            var player1Unit = new Unit { LocationRectangle = battleMap.GetTileRectangleAsFloat(0, 0), UnitData = player1Faction.Units[0], IsReverted = false };
             player1Unit.Initialize();
 
-            var player2Unit = new Unit(true) { LocationRectangle = battleMap.GetTileRectangleAsFloat(0, 22), UnitData = player2Faction.Units[0] };
+            var player2Unit = new Unit { LocationRectangle = battleMap.GetTileRectangleAsFloat(0, 22), UnitData = player2Faction.Units[0], IsReverted = true };
             player2Unit.Initialize();
 
             tileManager = new TileManager(ScreenManager.Game.Content);
@@ -67,18 +67,29 @@ namespace Heroes3.Screens.Game
 
             foreach (var unit in unitActionOrder)
             {
-                unit.OnMoveFinished += (sender, e) =>
-                {
-                    currentUnit.UnitStatus = UnitStatus.Waiting;
-
-                    unitActionOrder.Enqueue(currentUnit);
-                    unitActionOrder.Dequeue();
-
-                    NextTurn();
-                };
-
+                unit.OnMoveFinished += Unit_OnMoveFinished;
+                unit.OnAttackFinished += Unit_OnMoveFinished;
                 unit.OnMouseEnter += (sender, e) => tileManager.ShowUnitMapPath(battleMap.GetUnitMapPath(unit.UnitData));
                 unit.OnMouseLeave += (sender, e) => tileManager.ShowUnitMapPath(currentUnitMapPath);
+            }
+        }
+
+        private void Unit_OnMoveFinished(object sender, System.EventArgs e)
+        {
+            if (currentAttackedUnit != null)
+            {
+                currentUnit.UnitStatus = UnitStatus.Attacking;
+
+                currentAttackedUnit = null;
+            }
+            else
+            {
+                currentUnit.UnitStatus = UnitStatus.Waiting;
+
+                unitActionOrder.Dequeue();
+                unitActionOrder.Enqueue(currentUnit);
+
+                NextTurn();
             }
         }
 
@@ -202,11 +213,34 @@ namespace Heroes3.Screens.Game
 
             tileManager.Draw(spriteBatch);
             foreach (var unit in unitActionOrder)
-                unit.Draw(spriteBatch);
+                DrawUnit(spriteBatch, unit);
 
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        private void DrawUnit(SpriteBatch spriteBatch, Unit unit)
+        {
+            unit.Draw(spriteBatch);
+
+            if (unit.UnitStatus != UnitStatus.Moving)
+            {
+                var unitPositionOnBattle = battleMap.GetUnitPositionOnBattle(unit.UnitData);
+                var unitTileLocation = BattleMap.GetTileLocation((int)unitPositionOnBattle.X, (int)unitPositionOnBattle.Y);
+                var stackSizeTexturePosition = unit.IsReverted
+                    ? new Vector2(unitTileLocation.X - 25 - 3, unitTileLocation.Y + BattleMap.TILE_SIZE - stackSizeTexture.Height)
+                    : new Vector2(unitTileLocation.X + BattleMap.TILE_SIZE + 3, unitTileLocation.Y + BattleMap.TILE_SIZE - stackSizeTexture.Height);
+
+                spriteBatch.Draw(stackSizeTexture, stackSizeTexturePosition, Color.White);
+
+                var stackSizeAsString = unit.UnitData.StackSize.ToString();
+                var stackSizeStringSize = Fonts.MainFont.MeasureString(stackSizeAsString);
+                var stackSizePosition = new Vector2(
+                    stackSizeTexturePosition.X + stackSizeTexture.Width / 2 - stackSizeStringSize.X / 2,
+                    stackSizeTexturePosition.Y + stackSizeTexture.Height / 2 - stackSizeStringSize.Y / 2);
+                spriteBatch.DrawString(Fonts.MainFont, stackSizeAsString, stackSizePosition, Color.White);
+            }
         }
     }
 }
