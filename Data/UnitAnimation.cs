@@ -24,13 +24,16 @@ namespace Heroes3.Data
                 animationsIndexes[animation] = 0;
         }
 
-        public Rectangle GetNextAnimation(AnimationType animationType, bool returnEmptyOnAnimationEnd = false)
+        public Rectangle GetNextAnimation(AnimationType animationType, bool returnEmptyOnAnimationEnd = false, bool resetIndexOnAnimationEnd = true)
         {
             var animations = Animations[animationType];
 
             if (++animationsIndexes[animationType] == animations.Count)
             {
-                animationsIndexes[animationType] = 0;
+                if (resetIndexOnAnimationEnd)
+                    animationsIndexes[animationType] = 0;
+                else
+                    animationsIndexes[animationType] = animations.Count - 1;
 
                 if (returnEmptyOnAnimationEnd)
                     return Rectangle.Empty;

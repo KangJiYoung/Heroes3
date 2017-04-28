@@ -18,6 +18,7 @@ namespace Heroes3.Drawable
         public event EventHandler<EventArgs>
             OnMoveFinished,
             OnAttackFinished,
+            OnDyingFinished,
             OnMouseEnter,
             OnMouseLeave;
 
@@ -37,7 +38,7 @@ namespace Heroes3.Drawable
         {
             SpriteColor = Color.White;
 
-            currentSpriteRectangle = UnitData.UnitAnimation.Animations[AnimationType.Move][0];
+            currentSpriteRectangle = UnitData.UnitAnimation.Animations[AnimationType.Waiting][0];
         }
 
         public void Update(GameTime gameTime)
@@ -55,6 +56,9 @@ namespace Heroes3.Drawable
                     break;
                 case UnitStatus.Attacking:
                     HandleUnitAttacking(gameTime);
+                    break;
+                case UnitStatus.Dying:
+                    HandleUnitDying(gameTime);
                     break;
                 default:
                     throw new Exception("This should never happen!");
@@ -74,6 +78,8 @@ namespace Heroes3.Drawable
 
         private void HandleUnitWaitingForAction(GameTime gameTime)
         {
+            currentSpriteRectangle = UnitData.UnitAnimation.Animations[AnimationType.Waiting][0];
+
             highlightAnimationRemaining += gameTime.ElapsedGameTime.Milliseconds;
             if (highlightAnimationRemaining > HIGHLIGHT_ANIMATION_SPEED)
             {
@@ -98,7 +104,7 @@ namespace Heroes3.Drawable
                 {
                     if (UnitMapPath.IsLastPath())
                     {
-                        currentSpriteRectangle = UnitData.UnitAnimation.Animations[AnimationType.Move][0];
+                        currentSpriteRectangle = UnitData.UnitAnimation.Animations[AnimationType.Waiting][0];
 
                         OnMoveFinished?.Invoke(this, EventArgs.Empty);
                     }
@@ -129,8 +135,26 @@ namespace Heroes3.Drawable
 
                 if (currentSpriteRectangle == Rectangle.Empty)
                 {
-                    currentSpriteRectangle = UnitData.UnitAnimation.Animations[AnimationType.Move][0];
+                    currentSpriteRectangle = UnitData.UnitAnimation.Animations[AnimationType.Waiting][0];
                     OnAttackFinished?.Invoke(this, EventArgs.Empty);
+                }
+            }
+        }
+
+        private void HandleUnitDying(GameTime gameTime)
+        {
+            var lastAnimation = UnitData.UnitAnimation.Animations[AnimationType.Dead][UnitData.UnitAnimation.Animations[AnimationType.Dead].Count - 1];
+
+            if (currentSpriteRectangle != lastAnimation)
+            {
+                actionAnimationRemaining += gameTime.ElapsedGameTime.Milliseconds;
+                if (actionAnimationRemaining > ACTION_ANIMATION_SPEED)
+                {
+                    actionAnimationRemaining -= ACTION_ANIMATION_SPEED;
+                    currentSpriteRectangle = UnitData.UnitAnimation.GetNextAnimation(AnimationType.Dead, true, false);
+
+                    if (currentSpriteRectangle == lastAnimation)
+                        OnDyingFinished?.Invoke(this, EventArgs.Empty);
                 }
             }
         }

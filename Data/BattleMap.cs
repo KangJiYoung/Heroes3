@@ -87,7 +87,8 @@ namespace Heroes3.Data
                         Vector2.Distance(next, start) <= speed &&
                         IsValidCoordinate(next.X, next.Y))
                     {
-                        if (null != map[(int)next.X, (int)next.Y])
+                        var unitData = map[(int)next.X, (int)next.Y];
+                        if (null != unitData && unitData.StackSize > 0)
                             unitMapPath.AddEnemy(new Vector2(next.X, next.Y));
                         else
                         {

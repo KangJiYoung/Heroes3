@@ -7,7 +7,8 @@ namespace Heroes3.Data
         Waiting,
         WaitingForAction,
         Moving,
-        Attacking
+        Attacking,
+        Dying
     }
 
     public class UnitData

@@ -4,6 +4,7 @@ using Heroes3.Managers;
 using Heroes3.Screens.Base;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,6 +20,8 @@ namespace Heroes3.Screens.Game
 
         private Unit currentUnit, currentAttackedUnit;
         private UnitMapPath currentUnitMapPath;
+
+        private Random random = new Random();
 
         public BattleScreen(Faction player1Faction, Faction player2Faction)
         {
@@ -42,20 +45,20 @@ namespace Heroes3.Screens.Game
                 {
                     X = 0,
                     Y = 0,
-                    Unit = player1Faction.Units[0]
+                    Unit = player1Faction.Units[6]
                 },
                 new BattleMapTile
                 {
                     X = 0,
                     Y = 22,
-                    Unit = player2Faction.Units[0]
+                    Unit = player2Faction.Units[6]
                 }
             });
 
-            var player1Unit = new Unit { LocationRectangle = battleMap.GetTileRectangleAsFloat(0, 0), UnitData = player1Faction.Units[0], IsReverted = false };
+            var player1Unit = new Unit { LocationRectangle = battleMap.GetTileRectangleAsFloat(0, 0), UnitData = player1Faction.Units[6], IsReverted = false };
             player1Unit.Initialize();
 
-            var player2Unit = new Unit { LocationRectangle = battleMap.GetTileRectangleAsFloat(0, 22), UnitData = player2Faction.Units[0], IsReverted = true };
+            var player2Unit = new Unit { LocationRectangle = battleMap.GetTileRectangleAsFloat(0, 22), UnitData = player2Faction.Units[6], IsReverted = true };
             player2Unit.Initialize();
 
             tileManager = new TileManager(ScreenManager.Game.Content);
@@ -68,19 +71,18 @@ namespace Heroes3.Screens.Game
             foreach (var unit in unitActionOrder)
             {
                 unit.OnMoveFinished += Unit_OnMoveFinished;
-                unit.OnAttackFinished += Unit_OnMoveFinished;
+                unit.OnAttackFinished += Unit_OnAttackFinished;
+                unit.OnDyingFinished += (sender, e) => EndAttackPharse(sender, e);
                 unit.OnMouseEnter += (sender, e) => tileManager.ShowUnitMapPath(battleMap.GetUnitMapPath(unit.UnitData));
                 unit.OnMouseLeave += (sender, e) => tileManager.ShowUnitMapPath(currentUnitMapPath);
             }
         }
 
-        private void Unit_OnMoveFinished(object sender, System.EventArgs e)
+        private void Unit_OnMoveFinished(object sender, EventArgs e)
         {
             if (currentAttackedUnit != null)
             {
                 currentUnit.UnitStatus = UnitStatus.Attacking;
-
-                currentAttackedUnit = null;
             }
             else
             {
@@ -93,9 +95,37 @@ namespace Heroes3.Screens.Game
             }
         }
 
+        private void Unit_OnAttackFinished(object sender, EventArgs e)
+        {
+            var attackingUnit = (Unit)sender;
+            attackingUnit.UnitStatus = UnitStatus.Waiting;
+
+            var damage = random.Next(attackingUnit.UnitData.MinimumDamage, attackingUnit.UnitData.MaximumDamage + 1);
+            var totalDamage = attackingUnit.UnitData.StackSize * damage;
+
+            currentAttackedUnit.UnitData.StackSize = ((currentAttackedUnit.UnitData.StackSize * currentAttackedUnit.UnitData.Health) - totalDamage) / currentAttackedUnit.UnitData.Health;
+
+            if (currentAttackedUnit.UnitData.StackSize > 0)
+                EndAttackPharse(sender, e);
+            else
+                currentAttackedUnit.UnitStatus = UnitStatus.Dying;
+        }
+
+        private void EndAttackPharse(object sender, EventArgs e)
+        {
+            currentAttackedUnit = null;
+
+            Unit_OnMoveFinished(sender, e);
+        }
+
         private void NextTurn()
         {
-            currentUnit = unitActionOrder.Peek();
+            do
+            {
+                currentUnit = unitActionOrder.Peek();
+                if (currentUnit.UnitStatus == UnitStatus.Dying)
+                    unitActionOrder.Enqueue(unitActionOrder.Dequeue());
+            } while (currentUnit.UnitStatus == UnitStatus.Dying);
             currentUnit.UnitStatus = UnitStatus.WaitingForAction;
 
             currentUnitMapPath = battleMap.GetUnitMapPath(currentUnit.UnitData);
@@ -224,7 +254,7 @@ namespace Heroes3.Screens.Game
         {
             unit.Draw(spriteBatch);
 
-            if (unit.UnitStatus != UnitStatus.Moving)
+            if (unit.UnitStatus != UnitStatus.Moving && unit.UnitStatus != UnitStatus.Dying)
             {
                 var unitPositionOnBattle = battleMap.GetUnitPositionOnBattle(unit.UnitData);
                 var unitTileLocation = BattleMap.GetTileLocation((int)unitPositionOnBattle.X, (int)unitPositionOnBattle.Y);

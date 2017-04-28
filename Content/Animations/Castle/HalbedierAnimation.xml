@@ -1130,5 +1130,12 @@
         <Frame SpriteId="36" OriginX="40.5" OriginY="36.5" OffSetX="0" OffSetY="0" Duration="0.05" />
       </Frames>
     </Animation>
+    <Animation Name="Dead" FrameRate="20" Loop="True" PingPong="False">
+    <Frames>
+      <Frame SpriteId="52" OriginX="30.5" OriginY="33" OffSetX="0" OffSetY="0" Duration="0.05" />
+      <Frame SpriteId="55" OriginX="29.5" OriginY="18.5" OffSetX="0" OffSetY="0" Duration="0.05" />
+      <Frame SpriteId="58" OriginX="18.5" OriginY="12.5" OffSetX="0" OffSetY="0" Duration="0.05" />
+    </Frames>
+    </Animation>
   </Animations>
 </SpriteMapping>

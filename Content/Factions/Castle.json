@@ -30,7 +30,7 @@
       "StackSize": 100
     },
     {
-      "Name": "Royal Griffin",
+      "Name": "RoyalGriffin",
       "Speed": 9,
       "Shots": 0,
       "Health": 25,
@@ -39,7 +39,9 @@
       "IsFlying": true,
       "MinimumDamage": 3,
       "MaximumDamage": 6,
-      "StackSize": 100
+      "StackSize": 100,
+      "AnimationPath": "Animations/Castle/RoyalGriffinAnimation",
+      "AnimationDescriptionPath": "Content/Animations/Castle/RoyalGriffinAnimation.xml"
     },
     {
       "Name": "Crusader",
@@ -51,7 +53,9 @@
       "IsFlying": false,
       "MinimumDamage": 7,
       "MaximumDamage": 10,
-      "StackSize": 100
+      "StackSize": 100,
+      "AnimationPath": "Animations/Castle/CrusaderAnimation",
+      "AnimationDescriptionPath": "Content/Animations/Castle/CrusaderAnimation.xml"
     },
     {
       "Name": "Zealot",
@@ -75,7 +79,9 @@
       "IsFlying": false,
       "MinimumDamage": 20,
       "MaximumDamage": 25,
-      "StackSize": 100
+      "StackSize": 100,
+      "AnimationPath": "Animations/Castle/ChampionAnimation",
+      "AnimationDescriptionPath": "Content/Animations/Castle/ChampionAnimation.xml"
     },
     {
       "Name": "Archangel",
@@ -87,7 +93,9 @@
       "IsFlying": true,
       "MinimumDamage": 50,
       "MaximumDamage": 50,
-      "StackSize": 100
+      "StackSize": 100,
+      "AnimationPath": "Animations/Castle/ArchangelAnimation",
+      "AnimationDescriptionPath": "Content/Animations/Castle/ArchangelAnimation.xml"
     }
   ]
 }
