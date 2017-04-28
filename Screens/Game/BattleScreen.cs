@@ -4,6 +4,7 @@ using Heroes3.Managers;
 using Heroes3.Screens.Base;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace Heroes3.Screens.Game
         private Texture2D battleBackgorund, stackSizeTexture;
         private BattleMap battleMap;
         private TileManager tileManager;
+        private Song battleSong;
 
         private Unit currentUnit, currentAttackedUnit;
         private UnitMapPath currentUnitMapPath;
@@ -36,35 +38,97 @@ namespace Heroes3.Screens.Game
             battleBackgorund = content.Load<Texture2D>("Images/Game/Battle/BattleBackground");
             stackSizeTexture = content.Load<Texture2D>("Images/Game/Battle/StackSizeBackground");
 
+            battleSong = content.Load<Song>("Sound/BattleMusic");
+            //MediaPlayer.Play(battleSong);
+            MediaPlayer.IsRepeating = true;
+
             player1Faction.LoadContent(content);
             player2Faction.LoadContent(content);
 
-            battleMap = new BattleMap(new List<BattleMapTile>
+            var units = new List<BattleMapTile>
             {
                 new BattleMapTile
                 {
                     X = 0,
                     Y = 0,
+                    Unit = player1Faction.Units[0]
+                },
+                new BattleMapTile
+                {
+                    X = 2,
+                    Y = 0,
+                    Unit = player1Faction.Units[2]
+                },
+                new BattleMapTile
+                {
+                    X = 4,
+                    Y = 0,
+                    Unit = player1Faction.Units[3]
+                },
+                new BattleMapTile
+                {
+                    X = 7,
+                    Y = 0,
+                    Unit = player1Faction.Units[5]
+                },
+                new BattleMapTile
+                {
+                    X = 9,
+                    Y = 0,
                     Unit = player1Faction.Units[6]
                 },
+
                 new BattleMapTile
                 {
                     X = 0,
                     Y = 22,
+                    Unit = player2Faction.Units[0]
+                },
+                new BattleMapTile
+                {
+                    X = 2,
+                    Y = 22,
+                    Unit = player2Faction.Units[2]
+                },
+                new BattleMapTile
+                {
+                    X = 4,
+                    Y = 22,
+                    Unit = player2Faction.Units[3]
+                },
+                new BattleMapTile
+                {
+                    X = 7,
+                    Y = 22,
+                    Unit = player2Faction.Units[5]
+                },
+                new BattleMapTile
+                {
+                    X = 9,
+                    Y = 22,
                     Unit = player2Faction.Units[6]
                 }
-            });
+            };
+            battleMap = new BattleMap(units);
 
-            var player1Unit = new Unit { LocationRectangle = battleMap.GetTileRectangleAsFloat(0, 0), UnitData = player1Faction.Units[6], IsReverted = false };
-            player1Unit.Initialize();
+            var i = 0;
+            foreach (var unit in units)
+            {
+                var drawableUnit = new Unit { LocationRectangle = battleMap.GetTileRectangleAsFloat(unit.X, unit.Y), UnitData = unit.Unit, IsReverted = i++>4 };
+                drawableUnit.Initialize();
+                unitActionOrder.Enqueue(drawableUnit);
+            }
 
-            var player2Unit = new Unit { LocationRectangle = battleMap.GetTileRectangleAsFloat(0, 22), UnitData = player2Faction.Units[6], IsReverted = true };
-            player2Unit.Initialize();
+            //var player1Unit = new Unit { LocationRectangle = battleMap.GetTileRectangleAsFloat(0, 0), UnitData = player1Faction.Units[6], IsReverted = false };
+            //player1Unit.Initialize();
+
+            //var player2Unit = new Unit { LocationRectangle = battleMap.GetTileRectangleAsFloat(0, 22), UnitData = player2Faction.Units[6], IsReverted = true };
+            //player2Unit.Initialize();
 
             tileManager = new TileManager(ScreenManager.Game.Content);
 
-            unitActionOrder.Enqueue(player1Unit);
-            unitActionOrder.Enqueue(player2Unit);
+            //unitActionOrder.Enqueue(player1Unit);
+            //unitActionOrder.Enqueue(player2Unit);
 
             NextTurn();
 

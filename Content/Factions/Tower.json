@@ -1,5 +1,101 @@
 ﻿{
-  "Name": "Rampart",
-  "Image": "Images/Factions/RampartBackground",
-  "Hero": "Images/Heroes/RampartHero"
+  "Name": "Tower",
+  "Image": "Images/Factions/TowerBackground",
+  "Hero": "Images/Heroes/TowerHero",
+  "Units": [
+    {
+      "Name": "ObsidianGargoyle",
+      "Speed": 6,
+      "Shots": 0,
+      "Health": 16,
+      "HexSize": 1,
+      "IsRange": false,
+      "IsFlying": true,
+      "MinimumDamage": 2,
+      "MaximumDamage": 3,
+      "StackSize": 100,
+      "AnimationPath": "Animations/Tower/ObsidianGargoyleAnimation",
+      "AnimationDescriptionPath": "Content/Animations/Tower/ObsidianGargoyleAnimation.xml"
+    },
+    {
+      "Name": "MasterGremlin",
+      "Speed": 5,
+      "Shots": 8,
+      "Health": 4,
+      "HexSize": 1,
+      "IsRange": true,
+      "IsFlying": false,
+      "MinimumDamage": 1,
+      "MaximumDamage": 2,
+      "StackSize": 100
+    },
+    {
+      "Name": "IronGolem",
+      "Speed": 5,
+      "Shots": 0,
+      "Health": 35,
+      "HexSize": 1,
+      "IsRange": false,
+      "IsFlying": false,
+      "MinimumDamage": 4,
+      "MaximumDamage": 5,
+      "StackSize": 100,
+      "AnimationPath": "Animations/Tower/IronGolemAnimation",
+      "AnimationDescriptionPath": "Content/Animations/Tower/IronGolemAnimation.xml"
+    },
+    {
+      "Name": "Master Genie",
+      "Speed": 11,
+      "Shots": 0,
+      "Health": 40,
+      "HexSize": 1,
+      "IsRange": false,
+      "IsFlying": false,
+      "MinimumDamage": 13,
+      "MaximumDamage": 16,
+      "StackSize": 100,
+      "AnimationPath": "Animations/Tower/MasterGenieAnimation",
+      "AnimationDescriptionPath": "Content/Animations/Tower/MasterGenieAnimation.xml"
+    },
+    {
+      "Name": "Zealot",
+      "Speed": 7,
+      "Shots": 24,
+      "Health": 30,
+      "HexSize": 1,
+      "IsRange": true,
+      "IsFlying": false,
+      "MinimumDamage": 10,
+      "MaximumDamage": 12,
+      "StackSize": 100
+    },
+    {
+      "Name": "NagaQueen",
+      "Speed": 7,
+      "Shots": 0,
+      "Health": 110,
+      "HexSize": 2,
+      "IsRange": false,
+      "IsFlying": false,
+      "MinimumDamage": 30,
+      "MaximumDamage": 30,
+      "StackSize": 100,
+      "AnimationPath": "Animations/Tower/NagaQueenAnimation",
+      "AnimationDescriptionPath": "Content/Animations/Tower/NagaQueenAnimation.xml"
+    },
+    {
+      "Name": "Titan",
+      "Speed": 11,
+      "Shots": 24,
+      "Health": 300,
+      "HexSize": 2,
+      "IsRange": false,
+      "IsFlying": true,
+      "MinimumDamage": 40,
+      "MaximumDamage": 60,
+      "StackSize": 100,
+      "AnimationPath": "Animations/Tower/TitanAnimation",
+      "AnimationDescriptionPath": "Content/Animations/Tower/TitanAnimation.xml"
+    }
+  ]
 }
