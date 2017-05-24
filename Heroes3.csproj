@@ -41,6 +41,9 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AI\Bot.cs" />
+    <Compile Include="AI\AttackResult.cs" />
+    <Compile Include="AI\DefenseResult.cs" />
     <Compile Include="Data\BattleMap.cs" />
     <Compile Include="Data\UnitAnimation.cs" />
     <Compile Include="Data\DataLoader.cs" />

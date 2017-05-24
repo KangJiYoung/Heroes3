@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Heroes3.AI;
 
 namespace Heroes3.Screens.Game
 {
@@ -25,6 +26,7 @@ namespace Heroes3.Screens.Game
         private Unit currentUnit, currentAttackedUnit;
         private UnitMapPath currentUnitMapPath;
         private Random random = new Random();
+        private Bot bot = new Bot();
         private bool YouWon = false;
         private bool YouLost;
 
@@ -114,7 +116,7 @@ namespace Heroes3.Screens.Game
             var i = 0;
             foreach (var unit in units)
             {
-                var drawableUnit = new Unit { LocationRectangle = battleMap.GetTileRectangleAsFloat(unit.X, unit.Y), UnitData = unit.Unit, IsReverted = i++ > 3 };
+                var drawableUnit = new Unit { LocationRectangle = battleMap.GetTileRectangleAsFloat(unit.X, unit.Y), UnitData = unit.Unit, IsReverted = i++ > 4 };
                 drawableUnit.Initialize();
                 unitActionOrder.Enqueue(drawableUnit);
             }
@@ -161,58 +163,17 @@ namespace Heroes3.Screens.Game
 
             if (player2Faction.Units.Contains(currentUnit.UnitData))
             {
-
+                AttackResult bestAttack = null;
                 if (currentUnitMapPath.Enemies.Any())
                 {
-                    Vector2 bestTarget = currentUnitMapPath.Enemies.First();
-                    Vector2 tileToMove = new Vector2();
-                    var maxDamagePerDeath = 0;
-                    var foundEnemyToAttack = false;
-                    foreach (var enemy in currentUnitMapPath.Enemies)
-                    {
-                        var neigh = BattleMap.GetNeighbours(enemy.X, enemy.Y, true);
-                        foreach (var free in currentUnitMapPath.FreeTiles)
-                        {
-                            if (neigh.Contains(free))
-                            {
-                                var enemyUnitData = battleMap.GetUnitData((int)enemy.X, (int)enemy.Y);
-                                var remainEnemyUnits = ((enemyUnitData.Health * enemyUnitData.StackSize) - (currentUnit.UnitData.MinimumDamage * currentUnit.UnitData.StackSize)) / enemyUnitData.Health;
-                                var enemyUnitsKilledForce = (enemyUnitData.StackSize - remainEnemyUnits) * enemyUnitData.MinimumDamage;
-                                if (enemyUnitsKilledForce > maxDamagePerDeath)
-                                {
-                                    bestTarget = enemy;
-                                    tileToMove = free;
-                                    foundEnemyToAttack = true;
-                                    maxDamagePerDeath = enemyUnitsKilledForce;
-                                }
-                                break;
-                            }
-
-                        }
-                    }
-                    if (foundEnemyToAttack)
-                    {
-                        MoveUnit(tileToMove);
-                        currentAttackedUnit = unitActionOrder.First(it => it.UnitData == battleMap.GetUnitData((int)bestTarget.X, (int)bestTarget.Y));
-                    }
-
+                    bestAttack = bot.BestAttack(currentUnitMapPath, battleMap, currentUnit);
+                    MoveUnit(bestAttack.AttackTile);
+                    currentAttackedUnit = unitActionOrder.First(it => it.UnitData == battleMap.GetUnitData((int)bestAttack.Target.X, (int)bestAttack.Target.Y));
                 }
                 else
                 {
-                    var enemyUnit = player1Faction.Units.Where(i => i.StackSize > 0).First();
-                    var current = battleMap.GetUnitPositionOnBattle(currentUnit.UnitData);
-                    var enemyPos = battleMap.GetUnitPositionOnBattle(enemyUnit);
-                    var min = 10000f;
-                    var bestTile = current;
-                    foreach (var free in currentUnitMapPath.FreeTiles)
-                    {
-                        if (Vector2.Distance(enemyPos, free) < min)
-                        {
-                            min = Vector2.Distance(enemyPos, free);
-                            bestTile = free;
-                        }
-                    }
-                    MoveUnit(bestTile);
+                    var bestDefense = bot.BestDefensePosition(currentUnitMapPath, battleMap, currentUnit, player1Faction.Units.Where(it => it.StackSize > 0).ToList());
+                    MoveUnit(bestDefense.Tile);
                 }
             }
         }
