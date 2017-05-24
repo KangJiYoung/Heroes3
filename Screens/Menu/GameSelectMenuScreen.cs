@@ -25,6 +25,10 @@ namespace Heroes3.Screens.Menu
             startGameEntry.Selected += OnStartGameSelectedEntry;
             MenuEntries.Add(startGameEntry);
 
+            var startGameAiEntry = new MenuEntry { Position = new Rectangle(1100, 600, 100, 30) };
+            startGameAiEntry.Selected += OnStartGameAiSelectedEntry;
+            MenuEntries.Add(startGameAiEntry);
+
             var player1LeftFactionSelect = new MenuEntry { Position = new Rectangle(45, 200, 18, 36) };
             player1LeftFactionSelect.Selected += OnPlayer1LeftFactionSelectedEntry;
             MenuEntries.Add(player1LeftFactionSelect);
@@ -40,6 +44,14 @@ namespace Heroes3.Screens.Menu
             var player2RightFactionSelect = new MenuEntry { Position = new Rectangle(1217, 200, 18, 36) };
             player2RightFactionSelect.Selected += OnPlayer2RightFactionSelectedEntry;
             MenuEntries.Add(player2RightFactionSelect);
+        }
+
+        private void OnStartGameAiSelectedEntry(object sender, EventArgs e)
+        {
+            ExitScreen();
+            foreach (var unit in player1Faction.Units)
+                unit.LeftFaction = true;
+            ScreenManager.AddScreen(new BattleAiScreen(player1Faction, player2Faction));
         }
 
         #region Player 1 Events
@@ -131,6 +143,7 @@ namespace Heroes3.Screens.Menu
             spriteBatch.Draw(rightButton, new Vector2(1217, 200), Color.White);
 
             spriteBatch.DrawString(Fonts.MainFont, "Start Game", new Vector2(1000, 600), Color.White);
+            spriteBatch.DrawString(Fonts.MainFont, "Start Game Ai", new Vector2(1100, 600), Color.White);
 
             spriteBatch.End();
 
