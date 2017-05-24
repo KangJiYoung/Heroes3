@@ -147,7 +147,7 @@ namespace Heroes3.Screens.Game
             currentUnitMapPath = battleMap.GetUnitMapPath(currentUnit.UnitData);
             tileManager.ShowUnitMapPath(currentUnitMapPath);
 
-            if(unitActionOrder.Where(it => !it.UnitData.LeftFaction).All(it => it.UnitData.StackSize <= 0))
+            if (unitActionOrder.Where(it => !it.UnitData.LeftFaction).All(it => it.UnitData.StackSize <= 0))
             {
                 YouWon = true;
                 return;
@@ -161,25 +161,41 @@ namespace Heroes3.Screens.Game
 
             if (player2Faction.Units.Contains(currentUnit.UnitData))
             {
+
                 if (currentUnitMapPath.Enemies.Any())
                 {
-                    foreach(var enemy in currentUnitMapPath.Enemies)
+                    Vector2 bestTarget = currentUnitMapPath.Enemies.First();
+                    Vector2 tileToMove = new Vector2();
+                    var maxDamagePerDeath = 0;
+                    var foundEnemyToAttack = false;
+                    foreach (var enemy in currentUnitMapPath.Enemies)
                     {
-                        var found = false;
                         var neigh = BattleMap.GetNeighbours(enemy.X, enemy.Y, true);
                         foreach (var free in currentUnitMapPath.FreeTiles)
                         {
                             if (neigh.Contains(free))
                             {
-                                MoveUnit(free);
-                                currentAttackedUnit = unitActionOrder.First(it => it.UnitData == battleMap.GetUnitData((int)enemy.X, (int)enemy.Y));
-                                found = true;
+                                var enemyUnitData = battleMap.GetUnitData((int)enemy.X, (int)enemy.Y);
+                                var remainEnemyUnits = ((enemyUnitData.Health * enemyUnitData.StackSize) - (currentUnit.UnitData.MinimumDamage * currentUnit.UnitData.StackSize)) / enemyUnitData.Health;
+                                var enemyUnitsKilledForce = (enemyUnitData.StackSize - remainEnemyUnits) * enemyUnitData.MinimumDamage;
+                                if (enemyUnitsKilledForce > maxDamagePerDeath)
+                                {
+                                    bestTarget = enemy;
+                                    tileToMove = free;
+                                    foundEnemyToAttack = true;
+                                    maxDamagePerDeath = enemyUnitsKilledForce;
+                                }
                                 break;
                             }
-                            
+
                         }
-                        if (found) break;
                     }
+                    if (foundEnemyToAttack)
+                    {
+                        MoveUnit(tileToMove);
+                        currentAttackedUnit = unitActionOrder.First(it => it.UnitData == battleMap.GetUnitData((int)bestTarget.X, (int)bestTarget.Y));
+                    }
+
                 }
                 else
                 {
@@ -190,7 +206,7 @@ namespace Heroes3.Screens.Game
                     var bestTile = current;
                     foreach (var free in currentUnitMapPath.FreeTiles)
                     {
-                        if(Vector2.Distance(enemyPos, free) < min)
+                        if (Vector2.Distance(enemyPos, free) < min)
                         {
                             min = Vector2.Distance(enemyPos, free);
                             bestTile = free;
