@@ -446,3 +446,10 @@
 /processorParam:TextureFormat=Color
 /build:Animations/Tower/TitanAnimation.png
 
+#begin Fonts/Win.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Win.spritefont
+

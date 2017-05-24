@@ -87,13 +87,18 @@ namespace Heroes3.Data
                         Vector2.Distance(next, start) <= speed &&
                         IsValidCoordinate(next.X, next.Y))
                     {
+                        var currentUnitData = GetUnitData((int)x, (int)y);
                         var unitData = map[(int)next.X, (int)next.Y];
-                        if (null != unitData && unitData.StackSize > 0)
+                        if (null != unitData && unitData.StackSize > 0 && currentUnitData.LeftFaction != unitData.LeftFaction)
                             unitMapPath.AddEnemy(new Vector2(next.X, next.Y));
                         else
                         {
-                            unitMapPath.CameFrom[next] = current;
-                            neighbours.Enqueue(next);
+                            if(unitData == null || unitData.StackSize <= 0)
+                            {
+                                unitMapPath.CameFrom[next] = current;
+                                neighbours.Enqueue(next);
+                            }
+                            
                         }
                     }
             }
@@ -118,17 +123,20 @@ namespace Heroes3.Data
             return GetUnitMapPath((int)unitPosition.X, (int)unitPosition.Y, map[(int)unitPosition.X, (int)unitPosition.Y].Speed);
         }
 
-        private static IEnumerable<Vector2> GetNeighbours(float x, float y)
+        public static IEnumerable<Vector2> GetNeighbours(float x, float y, bool getDiagonalTiles = false)
         {
             yield return new Vector2(x - 1, y); // Left
             yield return new Vector2(x + 1, y); // Right
             yield return new Vector2(x, y - 1); // Top
             yield return new Vector2(x, y + 1); // Bottom
 
-            /*yield return new Vector2(x - 1, y - 1); // Top Left
-            yield return new Vector2(x + 1, y + 1); // Top Right
-            yield return new Vector2(x - 1, y + 1); // Bottom Left
-            yield return new Vector2(x + 1, y - 1); // Bottom Right*/
+            if (getDiagonalTiles)
+            {
+                yield return new Vector2(x - 1, y - 1); // Top Left
+                yield return new Vector2(x + 1, y + 1); // Top Right
+                yield return new Vector2(x - 1, y + 1); // Bottom Left
+                yield return new Vector2(x + 1, y - 1); // Bottom Right
+            }
         }
 
         public static Vector2 GetAttackTile(Vector2 enemyTile)

@@ -56,6 +56,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Screens\Base\GameScreen.cs" />
+    <Compile Include="Screens\Game\BattleAiScreen.cs" />
     <Compile Include="Screens\Game\BattleScreen.cs" />
     <Compile Include="Screens\Menu\GameSelectMenuScreen.cs" />
     <Compile Include="Screens\Menu\MainMenuScreen.cs" />
